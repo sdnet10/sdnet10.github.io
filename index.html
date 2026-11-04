@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<meta name="apple-mobile-web-app-title" content="SDTV Admin">
+<link rel="manifest" href="/manifest-admin.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex">
+<title>SDTV Painel</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+<div id="loginView" class="login" style="display:none">
+  <div class="card" style="text-align:center;padding:26px">
+    <div class="logo" style="margin:0 auto 12px;width:60px;height:60px">SDTV</div>
+    <h1>Painel do revendedor</h1>
+    <p class="m">Entre com a senha de admin (ADMIN_PASSWORD do Vercel).</p>
+    <form onsubmit="doLogin(event)">
+      <input id="pass" type="password" placeholder="Senha de admin" class="w100" autocomplete="current-password" style="margin-bottom:10px">
+      <button class="p w100">Entrar</button>
+    </form>
+    <p class="bad" id="loginErr"></p>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+<header class="top">
+  <div class="logo" id="logo">SDTV</div>
+  <div style="flex:1;min-width:0"><h1 id="nome">SDTV</h1><small id="sub"><span class="dot" id="pdot"></span> <span id="psub">—</span></small></div>
+  <button id="theme" class="ghost" title="Tema" style="padding:8px 11px">◐</button>
+  <button class="ghost" onclick="logout()" title="Sair" style="padding:8px 11px">Sair</button>
+</header>
+
+<nav class="tabs" id="nav">
+  <button data-t="home" class="on">Início</button>
+  <button data-t="chat">Chat<span class="badge" id="bChat"></span></button>
+  <button data-t="test">Testes<span class="badge" id="bTest"></span></button>
+  <button data-t="cli">Clientes</button>
+  <button data-t="promo">Promoções</button>
+  <button data-t="fin">Finanças</button>
+  <button data-t="cfg">Configurar</button>
+</nav>
+
+<!-- INÍCIO -->
+<section id="home" class="sec on">
+  <div class="grid">
+    <div class="card kpi"><small>Testes ativos</small><div class="big" id="kTests">0</div></div>
+    <div class="card kpi"><small>Clientes ativos</small><div class="big" id="kCli">0</div></div>
+    <div class="card kpi"><small>Vencem em 3 dias</small><div class="big warn" id="kSoon">0</div></div>
+    <div class="card kpi"><small>Vencidos</small><div class="big bad" id="kLate">0</div></div>
+  </div>
+  <div class="grid">
+    <div class="card kpi"><small>Entradas do mês</small><div class="big ok" id="fi">R$ 0,00</div></div>
+    <div class="card kpi"><small>Saídas do mês</small><div class="big bad" id="fo">R$ 0,00</div></div>
+    <div class="card kpi"><small>Saldo do mês</small><div class="big" id="fs">R$ 0,00</div></div>
+  </div>
+  <div class="card">
+    <h2>Link para seus clientes</h2>
+    <p class="m">Envie este link: o cliente pede teste sozinho e fala com você pelo chat.</p>
+    <div class="row"><input id="pubLink" readonly><button class="p" style="flex:0 0 auto" onclick="cp($('pubLink').value)">Copiar link</button></div>
+  </div>
+  <div class="card" id="homeAlerts"></div>
+</section>
+
+<!-- CHAT -->
+<section id="chat" class="sec">
+  <div class="chatlayout" id="chatLayout">
+    <div class="card threads" style="padding:8px;max-height:70vh;overflow:auto" id="threads"></div>
+    <div class="card conv">
+      <div class="it" style="margin-bottom:8px">
+        <div><button class="ghost" id="backBtn" onclick="closeConv()" style="padding:5px 10px;margin-right:6px">←</button><b id="convName">Selecione uma conversa</b> <small id="convPhone"></small></div>
+        <div id="convActions"></div>
+      </div>
+      <div class="chatbox">
+        <div class="msgs" id="convMsgs"><div class="empty">Escolha uma conversa à esquerda.</div></div>
+        <form class="composer" onsubmit="sendReply(event)">
+          <input id="replyIn" placeholder="Responder…" autocomplete="off">
+          <button class="p">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTES -->
+<section id="test" class="sec">
+  <div class="card"><h2>Gerar teste</h2>
+    <div class="row"><input id="tn" placeholder="Nome"><input id="tp" placeholder="WhatsApp (opcional)"><input id="te" type="email" placeholder="E-mail (kOffice)"></div>
+    <div class="row"><select id="th"><option value="1">1 hora</option><option value="2">2 horas</option><option value="4" selected>4 horas</option><option value="6">6 horas</option><option value="12">12 horas</option><option value="24">24 horas</option></select><input id="tnote" placeholder="Observação (opcional)"></div>
+    <button class="p w100" onclick="newTest(this)">Gerar teste</button>
+  </div>
+  <div class="sub" id="tf">
+    <button data-f="all" class="on">Todos</button><button data-f="pendente">Pendentes</button><button data-f="ativo">Ativos</button><button data-f="exp">Expirados</button>
+  </div>
+  <input class="w100" id="qTest" placeholder="Buscar teste" oninput="render()" style="margin-bottom:10px">
+  <div id="tests"></div>
+</section>
+
+<!-- CLIENTES -->
+<section id="cli" class="sec">
+  <div class="card"><h2>Cadastrar cliente</h2>
+    <div class="row"><input id="cn" placeholder="Nome"><input id="cphone" placeholder="WhatsApp"></div>
+    <div class="row"><input id="cu" placeholder="Usuário"><input id="cpw" placeholder="Senha"></div>
+    <div class="row"><input id="cdays" type="number" placeholder="Dias" value="30"><input id="cprice" type="hidden" value=""></div>
+    <button class="p w100" onclick="addClient(this)">Cadastrar</button>
+  </div>
+  <div class="sub" id="cf"><button data-f="all" class="on">Todos</button><button data-f="soon">A vencer</button><button data-f="late">Vencidos</button></div>
+  <button class="w100" onclick="backupPDF(this)" style="margin-bottom:8px">📄 Backup PDF (todos os clientes)</button>
+  <input class="w100" id="qCli" placeholder="Buscar nome, usuário ou WhatsApp" oninput="render()" style="margin-bottom:10px">
+  <div id="clis"></div>
+</section>
+
+<!-- PROMOÇÕES -->
+<section id="promo" class="sec">
+  <div class="card"><h2>Nova promoção</h2>
+    <p class="m">Aparece na página do cliente.</p>
+    <div class="row"><input id="pt" placeholder="Título (ex: Plano Mensal)"><input id="pp" placeholder="Preço (ex: R$ 30)"></div>
+    <textarea id="pd" rows="2" placeholder="Descrição"></textarea>
+    <button class="p w100" onclick="addPromo(this)" style="margin-top:8px">Adicionar</button>
+  </div>
+  <div id="promos"></div>
+  <div class="card"><h2>Novidades do painel kOffice</h2>
+    <p class="m">Lidas 1x por dia do kOffice (só leitura). O robô usa as ativas para responder sobre apps e TVs.</p>
+    <button onclick="syncNews(this)">Buscar agora</button>
+    <div id="newsList" style="margin-top:8px"></div>
+  </div>
+</section>
+
+<!-- FINANÇAS -->
+<section id="fin" class="sec">
+  <div class="card"><h2>Gerar PIX manual</h2>
+    <p class="m">Gera o PIX na hora e manda no chat do cliente. Você copia o código e envia no WhatsApp.</p>
+    <div class="row"><input id="pixName" placeholder="Nome"><input id="pixPhone" placeholder="WhatsApp com DDD"><input id="pixEmail" placeholder="E-mail completo"><input id="pixUser" placeholder="Usuário/login para renovar (opcional)"></div>
+    <div class="row"><select id="pixPlan"></select><button class="p" onclick="manualPix(this)">Gerar PIX</button></div>
+    <textarea id="pixOut" rows="4" readonly placeholder="O código do PIX aparece aqui"></textarea>
+    <div class="row" style="margin-top:8px"><button onclick="cp($('pixOut').value)">Copiar PIX</button><a id="pixWa" href="#" target="_blank" rel="noopener"><button>WhatsApp</button></a></div>
+  </div>
+  <div class="card"><h2>Lançamento</h2>
+    <div class="row"><select id="ft"><option value="in">Entrada</option><option value="out">Saída</option></select><input id="fv" type="number" step="0.01" placeholder="Valor"></div>
+    <div class="row"><input id="fd" placeholder="Descrição (ex: créditos do painel)"><input id="fday" type="date"></div>
+    <button class="p w100" onclick="addFin(this)">Lançar</button>
+  </div>
+  <div id="pays"></div>
+  <div id="fins"></div>
+</section>
+
+<!-- CONFIG -->
+<section id="cfg" class="sec">
+  <div class="card"><h2>Alertas no celular</h2>
+    <p class="m">Avisa quando um cliente chama o atendente, pede Max Player, paga PIX ou pede teste. No iPhone (iOS 16.4+) só funciona com o painel adicionado à Tela de Início.</p>
+    <button class="p w100" onclick="enablePush(this)">🔔 Ativar notificações neste aparelho</button>
+    <div class="row" style="margin-top:8px"><button onclick="tgSetup(this)">Conectar Telegram</button><button onclick="testAlert(this)">Testar alertas</button></div>
+    <div id="alertStatus" class="m" style="margin-top:6px"></div>
+  </div>
+  <div class="card"><h2>Marca</h2>
+    <div class="row"><input id="sName" placeholder="Nome da marca"><input id="sWa" placeholder="WhatsApp do atendente (opcional, com 55) — vazio = sem WhatsApp para o cliente"></div>
+    <div class="row"><input id="sDns" placeholder="DNS do cliente (ex: http://meu.dns.com:8080)"><input id="sPrice" type="number" step="0.01" placeholder="Preço padrão"></div>
+    <label class="m">Mensagem extra enviada junto com o acesso</label>
+    <textarea id="sExtra" rows="2" placeholder="Ex: App recomendado: IPTV Smarters"></textarea>
+    <label class="m">Boas-vindas do chat</label>
+    <input id="sWelcome" class="w100" placeholder="Olá! Como posso ajudar?" style="margin-bottom:8px">
+    <div class="row">
+      <select id="sAllow"><option value="1">Clientes podem pedir teste no site</option><option value="0">Testes pelo site desligados</option></select>
+      <select id="sHours"><option value="1">Teste do site: 1h</option><option value="2">2h</option><option value="3">3h</option><option value="4">4h</option><option value="6">6h</option><option value="12">12h</option><option value="24">24h</option></select>
+    </div>
+  </div>
+
+  <div class="card"><h2>Conexão com o painel IPTV</h2>
+    <p class="m">A conexão sai do servidor (Vercel), então não tem bloqueio de CORS e a chave nunca aparece para o cliente. <b>kOffice:</b> no Dashboard do painel, em <b>TESTE AUTOMÁTICO</b>, clique em Copiar e cole o link abaixo (o ID do pacote teste é opcional: 4 = com adultos 3h, 5 = sem adultos 3h). <b>XUI.ONE:</b> URL da API de revenda + <code>api_key</code>.</p>
+    <div class="row"><select id="sType"><option value="manual">Manual — eu libero o teste com 1 clique</option><option value="koffice">kOffice Panel — link de Teste Automático</option><option value="xui">XUI.ONE — API de revenda</option></select></div>
+    <div class="row"><input id="sUrl" placeholder="Link do teste automático (kOffice) ou URL da API (XUI)"></div>
+    <div class="row" id="keyRow"><input id="sKey" type="password" placeholder="API key do revendedor" autocomplete="off"></div>
+    <div class="row"><input id="sPkg" placeholder="ID pacote pago"><input id="sTrialPkg" placeholder="ID pacote teste"><input id="sConn" type="number" placeholder="Telas" value="1"></div>
+    <div class="row"><button class="p" onclick="saveSettings(this)">Salvar tudo</button><button onclick="testPanel(this)">Testar conexão</button></div>
+    <p class="m" id="pStatus"></p>
+    <pre class="m" id="pLog"></pre>
+  </div>
+
+  <div class="card"><h2>Robô do chat e pagamento automático</h2>
+    <p class="m">O robô responde sozinho: menu, teste grátis, planos e gera o PIX. Quando o cliente pede atendente ou você responde, ele fica quieto por um tempo naquela conversa.</p>
+    <div class="row"><select id="sBot"><option value="1">Robô ligado</option><option value="0">Robô desligado</option></select></div>
+    <label class="m">Planos (um por linha: <code>Nome;dias;preço</code>)</label>
+    <textarea id="sPlans" rows="4" placeholder="Mensal;30;30&#10;Trimestral;90;80"></textarea>
+    <p class="m" id="mpStatus" style="margin-top:8px"></p>
+    <p class="m">Planos com telas: <code>Nome;dias;preço;telas</code> — ex: <code>2 Telas;30;55;2</code></p>
+    <p class="m">Plano <b>sem preço</b> (ex: <code>Anual;365;</code>) fica <b>escondido</b>: o cliente não vê até você colocar o preço. Trimestral (90 dias) renova 3 meses no Green, anual (365) renova 12.</p>
+    <hr>
+    <h2 style="margin-top:4px">Reconquista de teste vencido</h2>
+    <p class="m">O Pedro manda <b>uma única</b> mensagem para quem fez teste, não assinou e o teste venceu há 2–3 dias. Use <code>{nome}</code> para o primeiro nome.</p>
+    <select id="sWinOn"><option value="0">Desligado</option><option value="1">Ligado</option></select>
+    <textarea id="sWinText" rows="3"></textarea>
+    <hr>
+    <h2 style="margin-top:4px">Indique e ganhe</h2>
+    <p class="m">Depois do teste, o Pedro pergunta se foi indicação e o <b>nome de quem indicou</b> (aparece abaixo). Cliente também pode pedir o link ("indicar"). A cada 2 indicados que <b>pagarem</b> (PIX aprovado ou Pagou por fora), ganha 1 mês grátis no Green. Teste e PIX pendente <b>não</b> contam pro prêmio — mas a captura do nome já fica na lista.</p>
+    <button class="btn" type="button" onclick="loadRefs(this)">Ver indicações</button>
+    <hr>
+    <h2 style="margin-top:4px">Vendedores</h2>
+    <p class="m">Vendedor <b>não é cliente</b>. Ele vende no preço normal (R$30 / 2 telas R$55) e usa um link como o de indicação. <b>Não</b> entra no Indique e ganhe (2 pagas = 1 mês). Cadastre o vendedor, copie o link e mande pra ele compartilhar.</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="sellerName" placeholder="Nome do vendedor" style="flex:1;min-width:160px">
+      <button class="btn" type="button" onclick="addSeller(this)">Cadastrar vendedor</button>
+      <button class="btn" type="button" onclick="loadSellers(this)">Ver vendedores</button>
+    </div>
+    <div id="sellerBox" class="m" style="margin-top:8px"></div>
+    <hr>
+    <h2 style="margin-top:4px">Lembretes de vencimento</h2>
+    <p class="m">Rodam sozinhos às 8h e 18h. Cada cliente recebe no máximo um aviso por dia.</p>
+    <button class="btn" type="button" onclick="runRem(this,true)">Ver quem receberia</button> <button class="btn" type="button" onclick="runRem(this,false)">Rodar lembretes agora</button> <button class="btn" type="button" onclick="syncGreen(this)">Sincronizar vencimentos do Green</button>
+    <div id="remBox" class="m" style="margin-top:8px"></div>
+    <div id="refBox" class="m" style="margin-top:8px"></div>
+    <hr>
+    <h2 style="margin-top:4px">Respostas do robô (perguntas frequentes)</h2>
+    <p class="m">Uma por linha: <code>palavras, chave =&gt; resposta</code>. Use <code>\n</code> para quebrar linha. Deixe vazio para usar as respostas padrão (apps, DNS, travamento, telas, replay…) tiradas do seu painel kOffice.</p>
+    <textarea id="sFaq" rows="8" placeholder="tv box, android => Use o app Green Pro…"></textarea>
+    <label class="m">Apps alternativos ao SDTV (separados por vírgula; vazio = padrão: IPTV Smarters, GSE Smart IPTV…)</label>
+    <input id="sAlt" placeholder="IPTV Smarters, GSE Smart IPTV, IBO Player">
+    <label class="m">Página de avisos/novidades do kOffice (caminho ou link do painel; vazio = desligado)</label>
+    <input id="sNewsUrl" placeholder="ex: /news/">
+    <p class="m" id="aiStatus">IA: verificando…</p>
+    <label class="m">Nome do robô (se você escrever esse nome ou "robô" no chat, o robô volta a atender)</label>
+    <input id="sBotName" placeholder="Pedro">
+    <label class="m">Nome do atendente (o robô usa ao chamar: "Vou chamar o Diego"; aparece no botão de WhatsApp se o número estiver preenchido)</label>
+    <input id="sHumanName" placeholder="Diego">
+    <label class="m">Código do app GPC PRO ROKU (Roku TV)</label>
+    <input id="sRoku" placeholder="4349178">
+    <label class="m">Oferecer Max Player para Samsung/LG</label>
+    <select id="sMax"><option value="1">Sim</option><option value="0">Não</option></select>
+    <label class="m">Receber todas as mensagens (monitorar): cada mensagem do cliente + resposta do robô vai para o Telegram</label>
+    <select id="sMon"><option value="1">Sim</option><option value="0">Não</option></select>
+    <label class="m">Push para cada conversa nova</label>
+    <select id="sMonPushNew"><option value="1">Sim</option><option value="0">Não</option></select>
+    <label class="m">Push para TODAS as mensagens (pode encher o celular)</label>
+    <select id="sMonPushAll"><option value="0">Não</option><option value="1">Sim</option></select>
+    <button class="w100" style="margin-top:8px" onclick="saveSettings(this)">Salvar respostas</button>
+    <hr>
+    <h2 style="margin-top:4px">Renovação automática no kOffice</h2>
+    <p class="m">Com o login de revendedor do kOffice no Vercel (<code>KOFFICE_USER</code> e <code>KOFFICE_PASS</code>), o sistema renova a linha sozinho quando o PIX cai (gasta seus créditos) e já manda usuário/senha do teste no chat.</p>
+    <div class="row"><button onclick="kCheck(this)">Testar login do kOffice</button></div>
+    <p class="m" id="kStatus"></p>
+    <button class="p w100" onclick="saveSettings(this)">Salvar robô e planos</button>
+  </div>
+
+  <div class="card"><h2>Backup</h2>
+    <p class="m">Os dados ficam no Supabase (nuvem). Este botão baixa uma cópia em JSON.</p>
+    <button onclick="exportData()" class="w100">Baixar backup JSON</button>
+    <button class="w100" style="margin-top:8px" onclick="avisarVenc(this)">Avisar vencimentos agora</button>
+    <p class="m" id="expStatus"></p>
+  </div>
+</section>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtMsg=s=>esc(s).replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|[\s(>])((?:https?:\/\/|www\.)[^\s<]+?)(?=[.,;:!?)\]]*(?:[\s<]|$))/gi,(m,p,u)=>`${p}<a href="${/^www\./i.test(u)?'https://'+u:u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+const brl=n=>'R$ '+Number(n||0).toFixed(2).replace('.',',');
+const fdt=t=>new Date(t).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+const fday=t=>new Date(t).toLocaleDateString('pt-BR');
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let PASS=''; ls.del('sdtv_admin');
+let S={settings:{},promos:[],tests:[],clients:[],fin:[],chats:[]};
+let tf='all',cf='all',curChat=null,lastMsgCount=0;
+
+function loadJs(u){return new Promise((ok,er)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=()=>er(new Error('Falha ao carregar '+u));document.head.appendChild(s)})}
+async function backupPDF(btn){await busy(btn,async()=>{const st=await api('state');
+  if(!window.jspdf)await loadJs('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');if(!window.backupPdf)await loadJs('/backup.js');
+  const doc=backupPdf(window.jspdf.jsPDF,st,(st.settings&&st.settings.name)||'SDTV');doc.save('backup-clientes-'+new Date().toISOString().slice(0,10)+'.pdf');toast('Backup gerado')})}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2400)}
+function cp(t){navigator.clipboard.writeText(t).then(()=>toast('Copiado')).catch(()=>prompt('Copie:',t))}
+async function loadNews(){try{const r=await api('news_list');$('newsList').innerHTML=(r.news||[]).map(n=>`<div class="card" style="opacity:${n.enabled?1:.5}"><b>${esc(n.title)}</b> <small class="m">${esc(n.day)}</small><p style="white-space:pre-wrap;margin:6px 0">${esc(String(n.body).slice(0,600))}</p><button onclick="toggleNews(${n.id},${!n.enabled})">${n.enabled?'Desativar':'Ativar'}</button></div>`).join('')||'<div class="m">Nenhuma novidade ainda.</div>'}catch(e){}}
+async function toggleNews(id,enabled){await api('news_toggle',{id,enabled});loadNews()}
+async function syncNews(btn){btn.disabled=true;try{const r=await api('news_sync');toast(r.ok?'Novidades atualizadas':(r.skipped||r.error||'Falhou'))}catch(e){toast(e.message)}finally{btn.disabled=false;loadNews()}}
+async function api(a,body){
+  const headers={'Content-Type':'application/json'};
+  if(PASS) headers['x-admin']=PASS;
+  const r=await fetch('https://whywhebigdgzbcbbfdch.supabase.co/functions/v1/app?a='+a,{method:'POST',credentials:'include',headers,body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>({error:'Resposta inválida do servidor'}));
+  if(r.status===401){logout(true);throw new Error(j.error)}
+  if(!r.ok)throw new Error(j.error||('Erro '+r.status));
+  return j;
+}
+async function busy(btn,fn){if(btn)btn.disabled=true;try{return await fn()}catch(e){toast(e.message)}finally{if(btn)btn.disabled=false}}
+
+// ---------- login ----------
+async function doLogin(e){e.preventDefault();PASS=$('pass').value;$('loginErr').textContent='';
+  try{await api('login');PASS='';$('pass').value='';ls.del('sdtv_admin');boot()}catch(err){$('loginErr').textContent=err.message}}
+function logout(silent){PASS='';ls.del('sdtv_admin');fetch('https://whywhebigdgzbcbbfdch.supabase.co/functions/v1/app?a=logout',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:'{}'}).catch(()=>{});$('app').style.display='none';$('loginView').style.display='block';if(silent!==true)toast('Saiu')}
+const b64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');const r=atob(s+'='.repeat((4-s.length%4)%4));return Uint8Array.from(r,c=>c.charCodeAt(0))};
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw-admin.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.openChat){go('chat');openConv(+e.data.openChat)}})}
+async function enablePush(btn){await busy(btn,async()=>{
+  if(!('serviceWorker' in navigator)||!('PushManager' in window))throw new Error(/iPhone|iPad/.test(navigator.userAgent)?'No iPhone: Compartilhar > Adicionar à Tela de Início, abra pelo ícone e tente de novo (iOS 16.4+)':'Este navegador não aceita notificações');
+  const {key}=await api('push_key');if(!key)throw new Error('Chaves VAPID não configuradas no Vercel');
+  if(await Notification.requestPermission()!=='granted')throw new Error('Permissão negada. Libere nas configurações do navegador');
+  const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(key)});
+  await api('push_sub',{sub:sub.toJSON(),ua:navigator.userAgent});toast('Notificações ativadas');alertStatus()})}
+async function alertStatus(){try{const r=await api('alert_status');const t=r.telegram,p=r.push;
+  const tg=!t.token?'❌ Telegram: falta o token no Vercel':!t.chat?'⚠️ Telegram: mande /start ao bot e toque em Conectar':!t.webhook?'⚠️ Telegram: toque em Conectar para ligar as respostas':t.webhookHere?'✅ Telegram conectado':'✅ Telegram conectado (respostas vão para '+t.webhookHost+')';
+  $('alertStatus').textContent=tg+(t.error?' · último erro: '+t.error:'')+' · '+(p.vapid?(p.devices?'✅ Push em '+p.devices+' aparelho(s)':'🔕 Push: nenhum aparelho ativado'):'❌ Push sem chaves VAPID')+(p.last&&p.last.results&&p.last.results.length?' · último envio: '+p.last.results.map(x=>x.host.split('.').slice(-2,-1)[0]+' '+x.status).join(', '):'');
+  const ai=r.ai||{};$('aiStatus').textContent=ai.on?'🤖 IA ligada: '+ai.provider+' ('+ai.model+')'+(r.aiLast?' · última chamada: '+(r.aiLast.ok?'✅ ok':'❌ '+r.aiLast.error):''):'🤖 IA desligada: o robô usa só as regras/FAQ (para ligar, coloque XAI_API_KEY no Vercel)'}catch(e){}}
+async function tgSetup(btn){await busy(btn,async()=>{const r=await api('tg_setup');if(!r.ok){$('alertStatus').textContent='❌ '+(r.error||'falhou')}else{toast('Telegram conectado');alertStatus()}})}
+async function testAlert(btn){await busy(btn,async()=>{const r=await api('notify_test');$('alertStatus').textContent=`Push: ${r.push&&r.push.ok?'✅ '+r.push.sent+' aparelho(s)':'❌ '+((r.push&&(r.push.skipped||r.push.error))||'sem aparelhos')} · Telegram: ${r.telegram&&r.telegram.ok?'✅':'❌ '+((r.telegram&&(r.telegram.skipped||r.telegram.error))||'')}`})}
+async function boot(){
+  try{await load();$('loginView').style.display='none';$('app').style.display='block';poll();if(!boot._t)boot._t=setInterval(poll,5000);const qc=new URLSearchParams(location.search).get('chat');if(qc){go('chat');openConv(+qc);history.replaceState(null,'','/')}}
+  catch(e){$('app').style.display='none';$('loginView').style.display='block';$('loginErr').textContent=e.message||'Não abriu o painel'}
+}
+async function avisarVenc(btn){await busy(btn,async()=>{const r=await api('cron_exp');const el=$('expStatus');const links=(r.items||[]).filter(x=>x.wa).map(x=>`<a href="${x.wa}" target="_blank" rel="noopener">${esc(x.name||x.username)} · ${esc(x.kind)}</a>`).join('<br>');if(el)el.innerHTML=`Avisos no chat: ${r.sent}. Já avisados hoje: ${r.skipped}.`+(links?`<br>Abrir no WhatsApp do cliente:<br>${links}`:'');toast('Avisos prontos')})}
+async function load(){S=await api('state');render();fillSettings();fillPixPlans()}
+
+async function editClient(id){
+  const c=find('clients',id); if(!c)return;
+  const chat=(S.chats||[]).find(x=>x.client_id==id || x.phone==c.phone) || {};
+  const test=(S.tests||[]).find(x=>x.phone==c.phone) || {};
+  const name=prompt('Nome', c.name||''); if(name===null)return;
+  const phone=prompt('WhatsApp com DDD', c.phone||''); if(phone===null)return;
+  const email=prompt('E-mail completo', chat.email||test.email||''); if(email===null)return;
+  const username=prompt('Usuário', c.username||''); if(username===null)return;
+  const password=prompt('Senha', c.password||''); if(password===null)return;
+  await busy(null, async()=>{ await api('edit_client',{id,name,phone,email,username,password}); toast('Cadastro atualizado'); await load(); });
+}
+
+function fillPixPlans(){const sel=$('pixPlan');if(!sel)return;const plans=(S.settings.plans||[]);sel.innerHTML=plans.map((p,i)=>`<option value="${i}">${esc(p.name)} — ${brl(p.price)}</option>`).join('')||'<option value="0">Plano padrão</option>';}
+
+async function manualPix(btn){
+  await busy(btn, async()=>{
+    const r = await api('manual_pix', { name:$('pixName').value.trim(), phone:$('pixPhone').value, email:$('pixEmail').value.trim(), plan:$('pixPlan').value, username:($('pixUser')?.value||'').trim() });
+    const code = r.pix && r.pix.code || '';
+    $('pixOut').value = code || 'PIX gerado, mas sem código. Veja o chat.';
+    const msg = 'Olá! Segue o PIX da SDTV.\nPlano: '+(r.pix.plan||'')+'\nValor: R$ '+(r.pix.amount||'')+'\n\n'+code;
+    $('pixWa').href = wa($('pixPhone').value, msg);
+    toast('PIX gerado');
+  });
+}
+
+
+// ---------- theme / nav ----------
+const th=ls.get('sdtv_theme');if(th)document.documentElement.dataset.theme=th;
+$('theme').onclick=()=>{const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');const n=cur==='dark'?'light':'dark';document.documentElement.dataset.theme=n;ls.set('sdtv_theme',n)};
+$('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;go(b.dataset.t)};
+function go(t){document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===t));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));if(t==='chat')renderThreads()}
+$('tf').onclick=e=>{const b=e.target.closest('button');if(!b)return;tf=b.dataset.f;document.querySelectorAll('#tf button').forEach(x=>x.classList.toggle('on',x===b));render()};
+$('cf').onclick=e=>{const b=e.target.closest('button');if(!b)return;cf=b.dataset.f;document.querySelectorAll('#cf button').forEach(x=>x.classList.toggle('on',x===b));render()};
+
+// ---------- mensagens ----------
+function dnsBase(){let d=(S.settings.dns||'').trim();if(!d)return '';if(!/^https?:\/\//i.test(d))d='http://'+d;return d.replace(/\/$/,'')}
+function cred(x,kind){const b=dnsBase();const L=[`*${S.settings.name||'SDTV'}* — ${kind}`,`Nome: ${x.name}`,`Usuário: ${x.username}`,`Senha: ${x.password}`];
+  if(b)L.push(`DNS: ${b}`,`M3U: ${b}/get.php?username=${encodeURIComponent(x.username)}&password=${encodeURIComponent(x.password)}&type=m3u_plus&output=mpegts`);
+  if(x.exp)L.push(`Válido até: ${fdt(x.exp)}`);if(S.settings.extra)L.push(S.settings.extra);return L.join('\n')}
+function wa(phone,text){let p=String(phone||'').replace(/\D/g,'');if(p&&p.length<=11)p='55'+p;return `https://wa.me/${p}?text=${encodeURIComponent(text)}`}
+const find=(k,id)=>S[k].find(x=>x.id==id);
+
+// ---------- ações ----------
+async function newTest(btn){const name=$('tn').value.trim();if(!name)return toast('Informe o nome');
+  await busy(btn,async()=>{const r=await api('new_test',{name,phone:$('tp').value,email:$('te').value.trim(),hours:$('th').value,note:$('tnote').value});
+    $('tn').value=$('tp').value=$('te').value=$('tnote').value='';S.tests.unshift(r.row);render();
+    toast(r.warn?'Gerado aqui, mas o painel falhou: '+r.warn:(r.row.status==='ativo'?'Teste criado no painel ✅':'Teste gerado — cadastre no painel'));})}
+async function release(id,btn){const t=find('tests',id);
+  let u='',p='';
+  if(!(S.settings.panelType==='xui'&&S.settings.panelUrl)){
+    u=prompt('Usuário do teste (o que você criou no painel):',t.username);if(u===null)return;
+    p=prompt('Senha do teste:',t.password);if(p===null)return;}
+  await busy(btn,async()=>{const r=await api('release_test',{id,username:u,password:p});Object.assign(t,r.row);render();toast(r.warn?'Liberado, mas painel: '+r.warn:'Teste liberado e enviado no chat ✅')})}
+async function syncGreen(btn){if(!confirm('Atualizar vencimentos/panel_id dos clientes a partir do Green (só leitura, não renova)?'))return;await busy(btn,async()=>{const r=await api('sync_green',{});$('remBox').innerHTML='<b>Sync Green</b> — atualizados: '+(r.synced||0)+' · sem linha: '+(r.missing||0)+' · erros: '+(r.errors||0)+' · total: '+(r.total||0)+(r.skipped?' · '+esc(r.skipped):'');toast('Sync concluído')})}
+async function runRem(btn,dry){if(!dry&&!confirm('Enviar agora os lembretes de vencimento e o relatório no Telegram?'))return;await busy(btn,async()=>{const r=await api('run_reminders',{dry,report:!dry});$('remBox').innerHTML=(dry?'<b>Simulação</b> — ':'<b>Enviado</b> — ')+(r.items||[]).length+' cliente(s)'+((r.items||[]).length?':<br>'+r.items.map(x=>esc(x.name||'')+' ('+esc(x.username||'-')+') · '+esc(x.kind)+(x.chat?'':' · sem chat')+(x.wa?' · <a href="'+esc(x.wa)+'" target="_blank">WhatsApp</a>':'')).join('<br>'):'')+(r.skipped?'<br>Já avisados hoje: '+r.skipped:'')})}
+async function loadRefs(btn){await busy(btn,async()=>{const r=await api('ref_state',{});const nm=id=>{const c=(r.clients||[]).find(x=>x.id===id);return c?esc(c.name)+' ('+esc(c.username||'-')+')':'#'+id};
+const st=s=>({trial:'🧪 teste',pending_payment:'⏳ pendente',paid:'✅ pago',skipped:'—'}[s]||esc(s||'teste'));
+const partners=(r.partners||[]).length?'<b>Parceiros que estão indicando (clientes)</b><br>'+r.partners.map(p=>esc(p.referrer_name||'?')+(p.referrer_code?' · cód. '+esc(p.referrer_code):'')+(p.referrer_id?' · '+nm(p.referrer_id):' · (nome livre)')+' · total '+(p.total||0)+' (teste '+(p.trial||0)+' · pago '+(p.paid||0)+')').join('<br>')+'<br><br>':'';
+const leads=(r.leads||[]).length?'<b>Indicações capturadas (pós-teste · clientes)</b><br>'+r.leads.map(L=>esc(L.referred_name||L.referred_username||L.referred_phone||'?')+' ← <b>'+esc(L.referrer_name||'?')+'</b>'+(L.referrer_code?' ('+esc(L.referrer_code)+')':'')+' · '+st(L.status)+' · '+new Date(L.created_at).toLocaleDateString('pt-BR')).join('<br>')+'<br><br>':'';
+const paid=(r.refs||[]).length?'<b>Indicações pagas (contam pro prêmio)</b><br>'+r.refs.map(x=>nm(x.referrer_id)+' → '+nm(x.referred_client_id)+' · '+(x.source==='pix'?'PIX':'por fora')+' · '+new Date(x.paid_at).toLocaleDateString('pt-BR')+(x.reward_id?' · 🎁 usado':'')).join('<br>')+'<br><br>':'';
+const rew=(r.rewards||[]).length?'<b>Meses grátis dados</b><br>'+r.rewards.map(w=>nm(w.referrer_id)+' · '+new Date(w.at).toLocaleDateString('pt-BR')+' · '+(w.ok?'✅ ':'⚠️ ')+esc(w.note||'')).join('<br>'):'';
+$('refBox').innerHTML=partners+leads+paid+rew||'Nenhuma indicação de cliente ainda.';
+})}
+async function addSeller(btn){const name=($('sellerName')?.value||'').trim();if(!name)return toast('Informe o nome do vendedor');await busy(btn,async()=>{const r=await api('seller_add',{name});$('sellerName').value='';toast('Vendedor cadastrado: '+r.row.name+' · cód. '+r.row.code);await loadSellers(null);if(r.row.link)try{await navigator.clipboard.writeText(r.row.link);toast('Link copiado')}catch(e){}})}
+async function loadSellers(btn){await busy(btn,async()=>{const r=await api('ref_state',{});const st=s=>({trial:'🧪 teste',paid:'✅ pago'}[s]||esc(s||'teste'));
+const list=(r.sellers||[]);
+if(!list.length){$('sellerBox').innerHTML='Nenhum vendedor ainda. Cadastre o nome acima — o link sai no formato /cliente?ref=CODIGO.';return}
+$('sellerBox').innerHTML=list.map(s=>{
+  const leads=(s.leads||[]).map(L=>esc(L.referred_name||L.referred_username||L.referred_phone||'?')+' · '+st(L.status)+' · '+new Date(L.created_at).toLocaleDateString('pt-BR')).join('<br>');
+  return `<div style="padding:8px 0;border-bottom:1px solid var(--ln)"><b>${esc(s.name)}</b> · cód. <code>${esc(s.code)}</code> · ${s.active?'ativo':'inativo'} · total ${s.total||0} (teste ${s.trial||0} · pago ${s.paid||0})
+  <div class="row" style="margin-top:6px;gap:6px;flex-wrap:wrap"><button type="button" onclick="cp('${esc(s.link||'')}');toast('Link copiado')">Copiar link</button>
+  <button type="button" class="ghost" onclick="toggleSeller(${s.id},${s.active?0:1},this)">${s.active?'Desativar':'Ativar'}</button></div>
+  ${leads?`<div class="m" style="margin-top:6px">${leads}</div>`:'<div class="m" style="margin-top:6px">Sem capturas ainda</div>'}</div>`;
+}).join('');
+})}
+async function toggleSeller(id,active,btn){await busy(btn,async()=>{await api('seller_toggle',{id,active:!!active});await loadSellers(null)})}
+async function askFora(){const v=prompt('Valor que o cliente pagou POR FORA (R$)',String(S.settings.price||30));if(v===null)return null;const n=parseFloat(String(v).replace(',','.'))||0;if(n<=0){toast('Informe o valor pago');return null}if(!confirm('Lançar '+brl(n)+' como pago por fora nas Finanças (conta nas Entradas)?'))return null;return n}
+async function askSellerId(){try{const r=await api('sellers_list',{});const list=(r.sellers||[]).filter(s=>s.active);if(!list.length)return null;const lines=list.map(s=>s.id+' = '+s.name+' ('+s.code+')').join('\n');const ans=prompt('Vendedor que vendeu? (id da lista, ou deixe vazio se já veio pelo link)\n'+lines,'');if(ans===null||!String(ans).trim())return null;const id=parseInt(String(ans).trim(),10);return list.some(s=>s.id===id)?id:null}catch(e){return null}}
+async function convert(id,btn,fora){let v=0,d=30,seller_id=null;if(fora){v=await askFora();if(v===null)return;const dd=prompt('Dias de acesso no Green','30');if(dd===null)return;d=parseInt(dd)||30;seller_id=await askSellerId()}else if(!confirm('Virar cliente SEM renovar no Green (não gasta crédito)? O vencimento fica o do teste. Para renovar de verdade use Pagou por fora.'))return;
+  await busy(btn,async()=>{const r=await api('convert',{id,value:v,fora:!!fora,days:d,seller_id});toast(r.warn?'Cliente criado: '+r.warn:(fora?'Virou cliente ✅ + '+brl(v)+' por fora':'Virou cliente ✅ (sem crédito)'));await load()})}
+async function cortesia(id,btn){if(!confirm('Liberar 1 mês grátis no Green (gasta 1 crédito), sem PIX?'))return;await busy(btn,async()=>{const r=await api('cortesia',{id});toast('1 mês grátis em '+ (r.user||'') +' ✅');await load()})}
+async function renew(id,btn,fora){if(!fora){toast('Use Pagou por fora para renovar no Green');return}const v=await askFora();if(v===null)return;const d=prompt('Dias a somar no Green','30');if(d===null)return;const seller_id=await askSellerId();
+  await busy(btn,async()=>{const r=await api('renew',{id,value:v,fora:true,days:parseInt(d)||30,seller_id});toast(r.warn?'Aviso: '+r.warn:'Renovado no Green ✅ + '+brl(v)+' por fora');await load()})}
+async function del(table,id){if(!confirm('Excluir?'))return;await busy(null,async()=>{await api('del',{table,id});S[table]=S[table].filter(x=>x.id!=id);if(table==='chats'){curChat=null;closeConv()}render();renderThreads()})}
+async function addClient(btn){const name=$('cn').value.trim(),username=$('cu').value.trim();if(!name||!username)return toast('Nome e usuário');
+  const days=parseInt($('cdays').value)||30,price=parseFloat($('cprice').value);
+  await busy(btn,async()=>{await api('upsert',{table:'clients',row:{name,username,password:$('cpw').value.trim(),phone:$('cphone').value.replace(/\D/g,''),exp:new Date(Date.now()+days*864e5).toISOString()}});
+    $('cn').value=$('cu').value=$('cpw').value=$('cphone').value=$('cprice').value='';await load();toast('Cliente cadastrado')})}
+async function addPromo(btn){const title=$('pt').value.trim();if(!title)return toast('Informe o título');
+  await busy(btn,async()=>{const r=await api('upsert',{table:'promos',row:{title,price:$('pp').value.trim(),descr:$('pd').value.trim()}});S.promos.unshift(r);$('pt').value=$('pp').value=$('pd').value='';render()})}
+async function addFin(btn){const v=parseFloat($('fv').value);if(!v)return toast('Informe o valor');const day=$('fday').value;
+  await busy(btn,async()=>{const r=await api('upsert',{table:'fin',row:{tp:$('ft').value,v,descr:$('fd').value.trim()||'-',at:day?new Date(day+'T12:00:00').toISOString():new Date().toISOString()}});S.fin.unshift(r);S.fin.sort((a,b)=>new Date(b.at)-new Date(a.at));$('fv').value=$('fd').value='';render()})}
+function promoText(p){return `*${S.settings.name||'SDTV'}* — ${p.title}\n${p.descr||''}\n${p.price||''}`}
+
+// ---------- config ----------
+function fillSettings(){const s=S.settings;
+  $('sBot').value=s.botOn===false?'0':'1';$('sMon').value=s.monitorAll===false?'0':'1';$('sMonPushNew').value=s.monitorPushNew===false?'0':'1';$('sMonPushAll').value=s.monitorPushAll?'1':'0';$('sFaq').value=s.faq||'';$('sAlt').value=Array.isArray(s.altApps)?s.altApps.join(', '):'';$('sNewsUrl').value=s.newsUrl||'';$('sRoku').value=s.rokuCode||'4349178';$('sBotName').value=s.botName||'Pedro';$('sHumanName').value=s.humanName||'Diego';$('sMax').value=s.maxPlayerOn===false?'0':'1';$('sWinOn').value=s.winbackOn?'1':'0';$('sWinText').value=s.winbackText||'';loadNews();alertStatus();$('sPlans').value=(s.plans||[]).map(p=>`${p.name};${p.days};${p.price};${p.screens||1}`).concat((s.plansHidden||[]).map(p=>`${p.name};${p.days};;${p.screens||1}`)).join('\n');
+  $('mpStatus').innerHTML=s.mpOn?'<span class="ok">● Mercado Pago conectado</span> — o PIX é gerado e confirmado sozinho.':'<span class="warn">● Mercado Pago não conectado</span> — adicione <code>MP_ACCESS_TOKEN</code> nas variáveis do Vercel e faça Redeploy.';
+  $('sName').value=s.name||'';$('sWa').value=s.wa||'';$('sDns').value=s.dns||'';$('sPrice').value=s.price||'';$('sExtra').value=s.extra||'';$('sWelcome').value=s.welcome||'';
+  $('sAllow').value=s.allowTrials===false?'0':'1';$('sHours').value=String(s.trialHours||4);
+  $('sType').value=s.panelType||'manual';$('sType').onchange=()=>{$('keyRow').style.display=$('sType').value==='xui'?'':'none'};$('sUrl').value=s.panelUrl||'';$('sKey').value=s.panelKey||'';$('sPkg').value=s.pkg||'';$('sTrialPkg').value=s.trialPkg||'';$('sConn').value=s.maxConn||1;
+  if(s.envPanel){$('sKey').disabled=true;$('sKey').placeholder='Definida no Vercel (PANEL_KEY)'}
+  if(!$('fday').value)$('fday').value=new Date().toISOString().slice(0,10);
+}
+async function saveSettings(btn){await busy(btn,async()=>{await api('save_settings',{name:$('sName').value.trim()||'SDTV',wa:$('sWa').value.replace(/\D/g,''),dns:$('sDns').value.trim(),price:$('sPrice').value,extra:$('sExtra').value.trim(),welcome:$('sWelcome').value.trim(),
+  allowTrials:$('sAllow').value==='1',trialHours:$('sHours').value,panelType:$('sType').value,panelUrl:$('sUrl').value.trim().replace(/\/$/,''),panelKey:$('sKey').value.trim(),pkg:$('sPkg').value.trim(),trialPkg:$('sTrialPkg').value.trim(),maxConn:$('sConn').value,
+  botOn:$('sBot').value==='1',monitorAll:$('sMon').value==='1',monitorPushNew:$('sMonPushNew').value==='1',monitorPushAll:$('sMonPushAll').value==='1',faq:$('sFaq').value,newsUrl:$('sNewsUrl').value.trim(),rokuCode:$('sRoku').value.trim(),botName:$('sBotName').value.trim()||'Pedro',humanName:$('sHumanName').value.trim()||'Diego',maxPlayerOn:$('sMax').value==='1',winbackOn:$('sWinOn').value==='1',winbackText:$('sWinText').value.trim(),plansHidden:$('sPlans').value.split('\n').map(l=>l.split(';').map(x=>x.trim())).filter(a=>a[0]&&!a[2]).map(a=>({name:a[0],days:parseInt(a[1])||30,screens:parseInt(a[3])||1})),altApps:($('sAlt').value.split(',').map(x=>x.trim()).filter(Boolean).length?$('sAlt').value.split(',').map(x=>x.trim()).filter(Boolean):null),plans:$('sPlans').value.split('\n').map(l=>l.split(';').map(x=>x.trim())).filter(a=>a[0]&&a[2]).map(a=>({name:a[0],days:parseInt(a[1])||30,price:parseFloat(String(a[2]).replace(',','.'))||0,screens:parseInt(a[3])||1}))});
+  await load();toast('Salvo ✅')})}
+async function testPanel(btn){$('pStatus').textContent='Testando…';$('pLog').textContent='';
+  await busy(btn,async()=>{try{const r=await api('panel_test');$('pStatus').innerHTML=r.ok?'<span class="ok">● Conectado ao painel</span>':r.msg;if(r.data)$('pLog').textContent=JSON.stringify(r.data,null,2).slice(0,900)}
+  catch(e){$('pStatus').innerHTML='<span class="bad">● Não conectou</span>';$('pLog').textContent=e.message}})}
+function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sdtv-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()}
+
+// ---------- chat ----------
+
+function payLine(c){
+  const tail=String(c.phone||'').replace(/\D/g,'').slice(-11);
+  const pays=(S.payments||[]).filter(p=>String(p.phone||'').replace(/\D/g,'').slice(-11)===tail || p.chat_id==c.id);
+  const ok=pays.find(p=>p.status==='approved'||p.status==='activated');
+  if(!ok) return '';
+  return `<div class="m ok">PIX ${brl(ok.amount)} · ${esc(ok.plan_name||'')} · ${esc(ok.status)}</div>`;
+}
+function renderThreads(){
+  $('threads').innerHTML=S.chats.length?S.chats.map(c=>`<div class="th ${curChat==c.id?'sel':''}" onclick="openConv(${c.id})"><div style="min-width:0"><b>${esc(c.name||'Visitante')}</b><div class="m">${esc(c.phone||'')} · ${fdt(c.last_at)}</div>${payLine(c)}</div>${c.unread?`<span class="tag bad">${c.unread}</span>`:''}</div>`).join(''):'<div class="empty">Nenhuma conversa ainda.<br>Envie o link do cliente pra começar.</div>';
+}
+async function openConv(id){curChat=id;$('chatLayout').classList.add('open');const c=find('chats',id);if(c)c.unread=0;
+  $('convName').textContent=c?.name||'Visitante';
+  const lc=c?.client_id?find('clients',c.client_id):null;
+  $('convPhone').innerHTML=(c?.phone?'· '+esc(c.phone):'')+(lc?` · <span class="tag ok">cliente #${lc.id} · ${esc(lc.username||'-')} · vence ${fday(lc.exp)}</span>`:` · <a href="#" onclick="linkPrompt(${id});return false">vincular cliente</a>`);
+  $('convActions').innerHTML=`${c?.phone?`<a href="${wa(c.phone,'')}" target="_blank" rel="noopener"><button class="ghost" style="padding:6px 10px">WhatsApp</button></a>`:''}${c?.human_until&&new Date(c.human_until)>new Date()?`<button class="ghost" style="padding:6px 10px" onclick="botResume(${id},this)">🤖 Religar robô</button>`:''}<button class="danger" style="padding:6px 10px" onclick="del('chats',${id})">Apagar</button>`;
+  renderThreads();await loadConv(true);updBadges()}
+function closeConv(){curChat=null;$('chatLayout').classList.remove('open');$('convMsgs').innerHTML='<div class="empty">Escolha uma conversa.</div>';$('convName').textContent='Selecione uma conversa';$('convPhone').textContent='';$('convActions').innerHTML='';renderThreads()}
+async function loadConv(scroll){if(!curChat)return;const id=curChat;const r=await api('chat_msgs',{id});if(id!==curChat)return;
+  const box=$('convMsgs');const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<60;
+  const pay=payLine(find('chats',id)||{});box.innerHTML=(pay?`<div class="msg me"><div style="font-size:11px;font-weight:800">Pedro</div>Pagamento aprovado e acesso renovado. ${pay.replace(/<[^>]+>/g,'')}</div>`:'')+r.messages.map(m=>{const x=m.meta||{};const tagx=x.pix?`<div style="margin-top:6px;font-weight:700">[PIX ${brl(x.pix.amount)}]</div>`:x.buttons?`<div style="opacity:.75;font-size:12px;margin-top:4px">🤖 botões: ${x.buttons.map(esc).join(' · ')}</div>`:'';const ag=m.from_admin?`<div style="font-size:11px;font-weight:800;opacity:.85;margin-bottom:2px">${x.agent?esc(x.agent)+' 🤖':'Você'}</div>`:'';return `<div class="msg ${m.from_admin?'me':'them'}"${x.internal?' style="background:var(--card2);color:var(--warn);border:1px dashed var(--warn)"':''}>${ag}${fmtMsg(m.body)}${tagx}<time>${fdt(m.created_at)}</time></div>`}).join('')||'<div class="empty">Sem mensagens.</div>';
+  if(scroll||atBottom)box.scrollTop=box.scrollHeight;lastMsgCount=r.messages.length}
+async function linkPrompt(chatId){const q=prompt('Usuário, WhatsApp ou nº do cliente para vincular a esta conversa:');if(!q)return;const k=q.trim().toLowerCase(),d=k.replace(/\D/g,'');
+  const c=S.clients.find(x=>String(x.id)===k||(x.username||'').toLowerCase()===k||(d.length>=10&&(x.phone||'').endsWith(d.slice(-10))));if(!c)return toast('Cliente não encontrado');
+  await busy(null,async()=>{await api('link_client',{chat_id:chatId,client_id:c.id});const ch=find('chats',chatId);if(ch)ch.client_id=c.id;openConv(chatId);toast('Vinculado ✅')})}
+async function kCheck(btn){$('kStatus').textContent='Testando login…';await busy(btn,async()=>{const r=await api('k_check');$('kStatus').innerHTML=r.ok?`<span class="ok">● Login no kOffice OK</span> — ${r.total} linhas. Renovação automática ligada.`:`<span class="bad">● ${esc(r.msg)}</span>`})}
+async function botResume(id,btn){await busy(btn,async()=>{await api('bot_resume',{id});const c=find('chats',id);if(c)c.human_until=null;btn.remove();toast('Robô religado nesta conversa')})}
+async function payDone(id,btn){const u=prompt('Já ativou/renovou no painel? Se quiser enviar o acesso no chat, digite o USUÁRIO (ou deixe vazio):','');if(u===null)return;let p='';if(u){p=prompt('SENHA:','');if(p===null)return}
+  await busy(btn,async()=>{await api('pay_done',{id,username:u,password:p});const x=find('payments',id);if(x)x.status='activated';render();toast(u?'Acesso enviado no chat ✅':'Marcado como ativado')})}
+async function sendReply(e){e.preventDefault();const body=$('replyIn').value.trim();if(!body||!curChat)return;$('replyIn').value='';
+  try{await api('reply',{id:curChat,body});await loadConv(true)}catch(err){toast(err.message);$('replyIn').value=body}}
+
+// ---------- polling / notificações ----------
+let lastUnread=0;
+function beep(){try{const a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.setValueAtTime(.12,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.35);o.start();o.stop(a.currentTime+.35)}catch(e){}}
+function updBadges(unread,pending){
+  if(unread===undefined)unread=S.chats.reduce((a,c)=>a+(c.unread||0),0);
+  if(pending===undefined)pending=S.tests.filter(t=>t.status==='pendente'&&t.source==='site').length;
+  $('bChat').textContent=unread;$('bChat').classList.toggle('show',unread>0);
+  $('bTest').textContent=pending;$('bTest').classList.toggle('show',pending>0);
+  document.title=(unread?`(${unread}) `:'')+(S.settings.name||'SDTV')+' Painel';
+}
+async function poll(){if($('app').style.display==='none'||document.hidden&&poll._n++%3)return;
+  try{const r=await api('poll');
+    if(r.unread>lastUnread){beep();if(!curChat||document.hidden)toast('Nova mensagem no chat 💬')}
+    const paidNow=(S.payments||[]).filter(x=>x.status==='approved').length;
+    if(r.paid>paidNow){beep();toast('💰 Pagamento PIX aprovado!')}
+    const changed=r.paid!==paidNow||r.unread!==lastUnread||r.pending!==S.tests.filter(t=>t.status==='pendente'&&t.source==='site').length;
+    lastUnread=r.unread;
+    if(changed){const st=await api('state');S.chats=st.chats;S.tests=st.tests;S.payments=st.payments;S.fin=st.fin;S.clients=st.clients;render();renderThreads()}
+    if(curChat)await loadConv(false);
+    updBadges(r.unread,r.pending);
+  }catch(e){}}
+poll._n=0;
+
+// ---------- render ----------
+function render(){
+  const s=S.settings,now=Date.now();
+  $('nome').textContent=s.name||'SDTV';$('logo').textContent=(s.name||'SDTV').slice(0,4).toUpperCase();
+  const auto=(s.panelType==='xui'||s.panelType==='koffice')&&s.panelUrl;
+  $('pdot').classList.toggle('on',!!auto);$('psub').textContent=auto?(s.panelType==='koffice'?'Ligado ao kOffice Panel':'Ligado ao XUI.ONE'):'Modo manual de testes';$('keyRow').style.display=s.panelType==='xui'?'':'none';
+  $('pubLink').value=location.origin+'/cliente';
+  const qT=$('qTest').value.toLowerCase(),qC=$('qCli').value.toLowerCase();
+
+  $('tests').innerHTML=S.tests.filter(t=>{if(t.status==='cliente')return false;const ex=new Date(t.exp)<now&&t.status!=='pendente';
+      if(tf==='pendente'&&t.status!=='pendente')return false;if(tf==='ativo'&&(t.status==='pendente'||ex))return false;if(tf==='exp'&&!ex)return false;
+      return ((t.name||'')+(t.username||'')+(t.phone||'')).toLowerCase().includes(qT)}).map(t=>{
+    const pend=t.status==='pendente',ex=!pend&&new Date(t.exp)<now,left=Math.max(0,new Date(t.exp)-now),pct=pend?0:Math.max(0,Math.min(100,left/((t.hours||4)*36e5)*100));
+    const tag=pend?'<span class="tag warn">pendente</span>':t.status==='email'&&!ex?'<span class="tag info">enviado p/ e-mail</span>':ex?'<span class="tag bad">expirado</span>':`<span class="tag ok">até ${fdt(t.exp)}</span>`;
+    return `<div class="card"><div class="it"><div><b>${esc(t.name)}</b> ${t.source==='site'?'<span class="tag info">site</span>':''}</div>${tag}</div>
+      <div class="m">${esc(t.username)} / ${esc(t.password)}${t.phone?' · '+esc(t.phone):''}${t.email?' · '+esc(t.email):''}${t.panel_id?' · painel #'+esc(t.panel_id):''}</div>${t.note?`<div class="m">${esc(t.note)}</div>`:''}
+      ${pend?'':`<div class="bar ${ex?'bad':pct<25?'warn':''}"><i style="width:${pct}%"></i></div>`}
+      <div class="row" style="margin-top:10px">${pend?`<button class="p" onclick="release(${t.id},this)">Liberar</button>`:''}<button onclick="cp(cred(find('tests',${t.id}),'Teste'))">Copiar</button><a href="${wa(t.phone,cred(t,'Teste'))}" target="_blank" rel="noopener" style="display:flex"><button class="w100">WhatsApp</button></a><button ${pend?'':'class="p"'} onclick="convert(${t.id},this)" title="Vira cliente no painel SEM gastar crédito no Green (só cadastra). Para renovar use Pagou por fora.">Virar cliente</button><button onclick="convert(${t.id},this,true)" title="Cliente pagou fora do PIX: renova no Green (gasta crédito), vira cliente e lança nas Finanças">Pagou por fora</button><button class="danger" onclick="del('tests',${t.id})">Excluir</button></div></div>`}).join('')||'<div class="empty">Nenhum teste aqui.</div>';
+
+  const clis=S.clients.filter(c=>{if(!((c.name||'')+' '+(c.username||'')+' '+(c.phone||'')).toLowerCase().includes(qC))return false;const dl=Math.ceil((new Date(c.exp)-now)/864e5);if(cf==='soon')return dl>=0&&dl<=3;if(cf==='late')return dl<0;return true});
+  $('clis').innerHTML=clis.map(c=>{const dl=Math.ceil((new Date(c.exp)-now)/864e5),cls=dl<0?'bad':dl<=3?'warn':'ok',label=dl<0?'vencido há '+Math.abs(dl)+'d':dl===0?'vence hoje':dl+' dias';
+    return `<div class="card"><div class="it"><b>${esc(c.name)}</b><span class="tag ${cls}">${label}</span></div><div class="m">${esc(c.username)} / ${esc(c.password)} · vence ${fday(c.exp)}${c.phone?' · '+esc(c.phone):''}${c.panel_id?' · #'+esc(c.panel_id):''}</div>
+      <div class="row" style="margin-top:10px"><button class="p" onclick="renew(${c.id},this,true)" title="Pagou por fora: renova no Green (gasta crédito) e lança nas Finanças">Pagou por fora</button><button onclick="editClient(${c.id})">Editar</button><button onclick="cortesia(${c.id},this)">1 mês grátis</button><button onclick="cp(cred(find('clients',${c.id}),'Acesso'))">Copiar</button><a href="${wa(c.phone,dl<0?`Olá ${c.name}! Seu acesso ${s.name||''} venceu. Quer renovar? 😊`:cred(c,'Acesso'))}" target="_blank" rel="noopener" style="display:flex"><button class="w100">${dl<0?'Cobrar':'WhatsApp'}</button></a><button class="danger" onclick="del('clients',${c.id})">Excluir</button></div></div>`}).join('')||'<div class="empty">Nenhum cliente neste filtro.</div>';
+
+  $('promos').innerHTML=S.promos.map(p=>`<div class="card promo"><div class="it"><b>${esc(p.title)}</b><span class="big" style="font-size:18px">${esc(p.price)}</span></div><p style="margin:6px 0">${esc(p.descr)}</p><div class="row"><button onclick="cp(promoText(find('promos',${p.id})))">Copiar</button><button class="danger" onclick="del('promos',${p.id})">Excluir</button></div></div>`).join('')||'<div class="empty">Nenhuma promoção ainda.</div>';
+
+  const isFora=f=>/^Por fora:/.test(String(f.descr||''));const m=new Date().getMonth(),y=new Date().getFullYear(),inM=d0=>{const d=new Date(d0);return d.getMonth()==m&&d.getFullYear()==y},mf=S.fin.filter(f=>inM(f.at));
+  // Entradas = PIX pago de verdade + pagamentos 'Por fora:' (botão Pagou por fora) (payments aprovados/ativados). Teste, cortesia, Max Player e lançamentos manuais de entrada não contam.
+  const i=(S.payments||[]).filter(x=>(x.status==='approved'||x.status==='activated')&&inM(x.paid_at||x.created_at)).reduce((a,x)=>a+Number(x.amount||0),0)+mf.filter(f=>f.tp=='in'&&isFora(f)).reduce((a,f)=>a+Number(f.v),0),o=mf.filter(f=>f.tp=='out').reduce((a,f)=>a+Number(f.v),0);
+  $('fi').textContent=brl(i);$('fo').textContent=brl(o);$('fs').textContent=brl(i-o);$('fs').className='big '+(i-o<0?'bad':'ok');
+  $('fins').innerHTML=S.fin.filter(f=>!(String(f.descr||'').startsWith('PIX ') && (S.payments||[]).some(x=>Math.abs(+x.amount-+f.v)<0.01 && String(f.descr||'').includes(x.name||x.plan_name||'')))).map(f=>{const off=f.tp=='in'&&!isFora(f);return `<div class="card it"${off?' style="opacity:.55"':''}><div><b class="${f.tp=='in'?(off?'m':'ok'):'bad'}">${f.tp=='in'?'+':'−'} ${brl(f.v)}</b><div class="m">${esc(f.descr)} · ${fday(f.at)}${off?' · <b>não é PIX pago — fora dos totais</b>':isFora(f)?' · <span class="tag ok">pago por fora — conta</span>':''}</div></div><button class="danger" onclick="del('fin',${f.id})">Excluir</button></div>`}).join('')||'<div class="empty">Sem lançamentos.</div>';
+
+  const soon=S.clients.filter(c=>{const dl=Math.ceil((new Date(c.exp)-now)/864e5);return dl>=0&&dl<=3}).length,late=S.clients.filter(c=>new Date(c.exp)<now).length;
+  const pend=S.tests.filter(t=>t.status==='pendente').length,unread=S.chats.reduce((a,c)=>a+(c.unread||0),0);
+  $('kTests').textContent=S.tests.filter(t=>t.status==='ativo'&&new Date(t.exp)>=now).length;$('kCli').textContent=S.clients.length-late;$('kSoon').textContent=soon;$('kLate').textContent=late;
+  const P=S.payments||[],paidWait=P.filter(x=>x.status==='approved');
+  const stl={pending:'<span class="tag warn">aguardando</span>',approved:'<span class="tag ok">pago — ativar</span>',activated:'<span class="tag info">ativado</span>'};
+  const clientOf=x=>{const tail=String(x.phone||'').replace(/\D/g,'').slice(-11);return (S.clients||[]).find(c=>String(c.phone||'').replace(/\D/g,'').slice(-11)===tail || (x.name&&c.name&&c.name.toLowerCase()===String(x.name).toLowerCase()))||null};
+const PAID=P.filter(x=>x.status==='approved'||x.status==='activated'),NOTP=P.filter(x=>!(x.status==='approved'||x.status==='activated'));
+$('pays').innerHTML=(PAID.length||NOTP.length)?`<div class="card"><h2>Pagamentos PIX (pagos)</h2>${PAID.length?'':'<div class="m">Nenhum PIX pago ainda.</div>'}${PAID.slice(0,40).map(x=>{const c=clientOf(x);return `<div class="it" style="padding:8px 0;border-bottom:1px solid var(--ln)"><div><b>${esc(c?.name||x.name||'Cliente')}</b> · ${esc(x.plan_name)} · <b class="ok">+ ${brl(x.amount)}</b><div class="m">${c?esc(c.username||'')+' · ':''}${esc(x.phone||'')} · ${fdt(x.created_at)}${x.paid_at?' · pago '+fdt(x.paid_at):''} · lançamento vinculado</div></div><div style="display:flex;gap:6px;align-items:center">${stl[x.status]||`<span class="tag">${esc(x.status)}</span>`}${x.status==='approved'?`<button class="p" style="padding:6px 10px" onclick="payDone(${x.id},this)">Ativei</button>`:''}<button class="danger" style="padding:6px 10px" onclick="del('payments',${x.id})">Excluir</button></div></div>`}).join('')}${NOTP.length?`<div style="margin-top:8px"><a href="#" class="m" onclick="window.SHOWPEND=!window.SHOWPEND;render();return false">${window.SHOWPEND?'Ocultar':'Mostrar'} PIX não pagos (${NOTP.length}) — não entram nos totais</a></div>${window.SHOWPEND?NOTP.slice(0,40).map(x=>`<div class="it" style="padding:6px 0;border-bottom:1px solid var(--ln);opacity:.6"><div>${esc(x.name||'Cliente')} · ${esc(x.plan_name)} · ${brl(x.amount)}<div class="m">${fdt(x.created_at)}</div></div><div style="display:flex;gap:6px;align-items:center">${stl[x.status]||`<span class="tag">${esc(x.status)}</span>`}<button class="danger" style="padding:6px 10px" onclick="del('payments',${x.id})">Excluir</button></div></div>`).join(''):''}`:''}</div>`:'';
+  $('homeAlerts').innerHTML=`<h2>Atenção</h2>${paidWait.length?`<p class="ok">💰 ${paidWait.length} pagamento(s) PIX aprovado(s) — renove/ative no kOffice e clique em <b>Ativei</b>. <a href="#" onclick="go('fin');return false">Ver</a></p>`:''}${unread?`<p class="info">💬 ${unread} mensagem(ns) não lida(s). <a href="#" onclick="go('chat');return false">Abrir chat</a></p>`:''}${pend?`<p class="warn">⏳ ${pend} teste(s) aguardando liberação. <a href="#" onclick="go('test');return false">Ver testes</a></p>`:''}${late?`<p class="bad">${late} cliente(s) vencido(s).</p>`:''}${soon?`<p class="warn">${soon} cliente(s) vencem em até 3 dias.</p>`:''}${!late&&!soon&&!pend&&!unread&&!paidWait.length?'<p class="m">Tudo em dia ✨</p>':''}`;
+  updBadges();
+}
+boot();
+</script>
+</body>
+</html>

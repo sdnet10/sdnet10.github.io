@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<script>/* links antigos de preview (sdtv-painel-git-*.vercel.app) rodam robô velho sem PIX: manda sempre para o site oficial */(function(){var h=location.hostname;if(/^sdtv-painel-.+\.vercel\.app$/.test(h))location.replace('https://sdtv-painel.vercel.app/cliente'+location.search+location.hash)})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<title>Teste grátis e atendimento</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SDTV">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="stylesheet" href="/style.css">
+
+<style>
+.mural{display:none}
+@media(min-width:1180px){
+  .mural{display:none}
+  .mural::-webkit-scrollbar{display:none}
+  
+  .poster{display:block;text-decoration:none;color:#fff;border-radius:18px;padding:16px 14px;min-height:168px;background:
+    radial-gradient(120px 80px at 90% 10%, rgba(255,122,0,.45), transparent 60%),
+    linear-gradient(160deg,#1a0d05,#070707 55%,#120800);
+    border:1px solid rgba(255,122,0,.35);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .poster b{display:block;font-size:22px;line-height:1.05;letter-spacing:-.4px}
+  .poster b span{color:#ff7a00}
+  .poster small{display:block;margin-top:8px;color:#d9d0c6;font-size:12px;line-height:1.35}
+  .poster i{display:inline-block;margin-top:12px;font-style:normal;font-size:11px;font-weight:700;background:#ff7a00;color:#1a0d05;border-radius:999px;padding:4px 8px}
+}
+
+@media(min-width:1100px){
+  .wrap{padding:6px 12px 8px}
+  .banner{min-height:0;padding:320px 22px 14px}
+  .banner h1{font-size:26px;margin:0}
+  .banner p,.chips,.feat,.live{display:none}
+  .tabs{margin:6px 0}
+  #teste .card{padding:10px 12px}
+  #teste h2{margin:0 0 6px;font-size:15px}
+  #teste .row{margin-bottom:6px}
+  #teste input,#teste button{padding:7px 10px}
+  .mural{display:flex;flex-direction:column;gap:0;position:fixed;top:12px;height:calc(100vh - 24px);width:min(300px, calc(50vw - 410px));overflow:hidden;border-radius:22px;border:1px solid rgba(255,122,0,.5);box-shadow:0 18px 40px rgba(0,0,0,.55);z-index:2;background:#111}
+  .mural.l{left:auto;right:calc(50% + 392px)}
+  .mural.r{left:calc(50% + 392px);right:auto}
+  .mural a{flex:1;min-height:0;display:block;overflow:hidden}
+  .mural a+a{border-top:3px solid #111}
+  .mural img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#111}
+}
+
+
+@media(max-width:1099px){
+  .mural{display:flex;flex-direction:row;gap:8px;position:static;width:auto;height:auto;margin:10px 12px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,122,0,.45);background:#111}
+  .mural a{flex:1;min-height:160px;display:block}
+  .mural img{width:100%;height:160px;object-fit:cover;object-position:center;display:block}
+}
+
+
+@media(max-width:800px){
+  .wrap{padding-bottom:96px}
+  .banner{padding-top:200px}
+  .banner .brandlogo{width:min(240px,70%)}
+}
+.banner .brand{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;z-index:3}
+.banner .brandlogo{width:min(380px,76%);height:auto;display:block;background:transparent}
+.banner .brand .logo{width:58px;height:40px;font-size:15px;letter-spacing:.04em;border-radius:12px;background:#fff;color:#ff7a00;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.banner .only-name{display:none}
+.banner h1{position:relative;z-index:3;padding-right:8px}
+.banner .live{display:none}
+</style>
+</head>
+<body>
+
+<aside class="mural l" aria-hidden="true">
+  <a href="#teste"><img onerror="this.parentElement.remove()" src="/banners/b1.jpg" alt="Doramas na SDTV"></a>
+  <a href="#planos"><img onerror="this.parentElement.remove()" src="/banners/b2.jpg" alt="Conteudos diarios"></a>
+</aside>
+<aside class="mural r" aria-hidden="true">
+  <a href="#teste"><img onerror="this.parentElement.remove()" src="/banners/b4.jpg" alt="Roku TV"></a>
+  <a href="#planos"><img onerror="this.parentElement.remove()" src="/banners/b5.jpg" alt="Com SDTV"></a>
+</aside>
+<div class="wrap" style="max-width:760px">
+  <section class="banner">
+    <svg class="bannerbg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g1" cx="78%" cy="30%" r="60%"><stop offset="0" stop-color="#ff7a00" stop-opacity=".55"/><stop offset=".45" stop-color="#ff5a00" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="g2" cx="10%" cy="90%" r="50%"><stop offset="0" stop-color="#ff9a1f" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#ff7a00" stop-opacity="0"/><stop offset=".5" stop-color="#ffb04d" stop-opacity=".9"/><stop offset="1" stop-color="#ff7a00" stop-opacity="0"/></linearGradient></defs><rect width="1200" height="600" fill="#050505"/><g transform="translate(140 -40) skewY(-8) rotate(-6 600 300)"><rect x="120" y="40" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.03"/><rect x="120" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.04"/><rect x="240" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="360" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="360" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="480" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="480" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="600" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="600" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="720" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.06"/><rect x="720" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="840" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.09"/><rect x="840" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="960" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="960" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="1080" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.10"/><rect x="1080" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.14"/><rect x="160" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.03"/><rect x="160" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="280" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.05"/><rect x="280" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="400" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="400" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="520" y="124" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.07"/><rect x="520" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="640" y="124" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.11"/><rect x="640" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.16"/><rect x="760" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.09"/><rect x="760" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="880" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.07"/><rect x="880" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="1000" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.11"/><rect x="1000" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.16"/><rect x="1120" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.08"/><rect x="1120" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="120" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.03"/><rect x="120" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="208" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="240" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="360" y="208" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.04"/><rect x="360" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="480" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="480" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="600" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.05"/><rect x="600" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="720" y="208" width="104" height="62" rx="8" fill="#ffffff" opacity="0.08"/><rect x="720" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.11"/><rect x="840" y="208" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.09"/><rect x="840" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="960" y="208" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.08"/><rect x="960" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="1080" y="208" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.16"/><rect x="1080" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.23"/><rect x="160" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.03"/><rect x="160" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="280" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="280" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="400" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.06"/><rect x="400" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.09"/><rect x="520" y="292" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.07"/><rect x="520" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="640" y="292" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.04"/><rect x="640" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="760" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="760" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="880" y="292" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.05"/><rect x="880" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="1000" y="292" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.09"/><rect x="1000" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="1120" y="292" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.15"/><rect x="1120" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.22"/><rect x="120" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.03"/><rect x="120" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.04"/><rect x="240" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="360" y="376" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.06"/><rect x="360" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="480" y="376" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.08"/><rect x="480" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="600" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.10"/><rect x="600" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.14"/><rect x="720" y="376" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.08"/><rect x="720" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="840" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.04"/><rect x="840" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="960" y="376" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.12"/><rect x="960" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.18"/><rect x="1080" y="376" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.08"/><rect x="1080" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.11"/></g><rect width="1200" height="600" fill="url(#g1)"/><rect width="1200" height="600" fill="url(#g2)"/><g opacity=".8"><rect x="-100" y="350" width="900" height="2" fill="url(#s)" transform="rotate(-14 400 350)"/><rect x="300" y="430" width="1000" height="1.5" fill="url(#s)" transform="rotate(-14 800 430)"/><rect x="100" y="250" width="700" height="1" fill="url(#s)" transform="rotate(-14 450 250)"/></g><g transform="translate(905 200)" opacity="0"><circle r="62" fill="none" stroke="#ff7a00" stroke-width="3" stroke-opacity=".8"/><circle r="84" fill="none" stroke="#ff7a00" stroke-width="1.5" stroke-opacity=".35"/><path d="M-18 -28 L32 0 L-18 28 Z" fill="#ff7a00"/></g></svg>
+    <div class="brand"><img class="brandlogo" src="/logo-sdtv.apng" alt="SDTV"></div>
+    <div class="live"><i></i>AO VIVO</div>
+    <h1>Canais, filmes e séries <span>em um só lugar</span></h1>
+    <p>Assista na TV, celular ou TV Box. Teste grátis agora e assine com PIX em segundos.</p>
+    <div class="chips"><span>📺 Full HD e 4K</span><span>⚡ Liberação na hora</span><span>💬 Suporte no chat</span></div>
+    <div class="cta"><button class="p" onclick="go('teste');document.getElementById('n').focus()">Testar grátis <span id="hrsBtn"></span></button><button class="ghost" onclick="want('quero renovar')">Ver planos</button></div>
+  </section>
+
+  <div class="feat"><div><b>+ Canais</b>ao vivo</div><div><b>Filmes</b>e séries</div><div><b>PIX</b>automático</div></div>
+
+  <nav class="tabs" id="nav" style="justify-content:center">
+    <button data-t="teste" class="on">Teste grátis</button>
+    <button data-t="chat">Chat<span class="badge" id="bChat"></span></button>
+    <button data-t="cliente">Já sou cliente</button>
+    <button data-t="planos">Planos</button>
+  </nav>
+
+  <section id="teste" class="sec on">
+    <div class="card" id="trialForm">
+      <h2>Quero testar <span class="m" id="hrs"></span></h2>
+      <div class="row"><input id="n" placeholder="Seu nome" autocomplete="name"></div>
+      <div class="row"><input id="ph" placeholder="WhatsApp com DDD" inputmode="tel" autocomplete="tel"></div>
+      <div class="row" id="emailRow"><input id="em" type="email" placeholder="Seu e-mail (Gmail, Hotmail ou da empresa)" autocomplete="email"></div>
+      <button class="p w100" id="go" onclick="trial(this)">Gerar meu teste</button>
+      <p class="m" id="tMsg" style="margin-bottom:0"></p>
+    </div>
+    <div class="card" id="trialOk" style="display:none">
+      <h2 class="ok">✅ Seu teste está pronto</h2>
+      <div class="cred" id="credBox"></div>
+      <div class="row" style="margin-top:10px"><button class="p" onclick="cp($('credBox').textContent)">Copiar dados</button><button onclick="go('chat')">Falar no chat</button></div>
+    </div>
+    <div class="card" id="trialWait" style="display:none">
+      <h2 class="warn">⏳ Pedido recebido</h2>
+      <p id="waitTxt">Estou liberando seu teste agora. Os dados chegam aqui no chat em instantes.</p>
+      <button class="p w100" onclick="go('chat')">Abrir chat</button>
+    </div>
+<div class="card apkg" id="appAndroid">
+<h2>📲 App SDTV para Android / TV Box</h2>
+<a class="btn-apk" href="https://github.com/sdnet10/sdtv-download/releases/latest/download/SDTV.apk" download="SDTV.apk">⬇ Baixar SDTV.apk</a>
+<p class="m" style="margin:6px 0 10px">App oficial SDTV (arquivo SDTV.apk) para celular Android, TV Box e TV Android. <b>iPhone/iPad:</b> instale o <b>IPTV Smarters</b> (App Store) e entre com <i>Login Xtream</i>, servidor <b>http://appgr.net:80</b>, com seu usuário e senha.</p>
+<ol class="gsteps">
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><path d="M32 18v20m-9-9 9 9 9-9" class="g-ln"/><rect x="22" y="44" width="20" height="4" rx="2" class="g-ac"/></svg><span><b>1.</b> Toque em <b>Baixar</b> e aguarde terminar.</span></li>
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><rect x="20" y="10" width="24" height="12" rx="3" class="g-ac"/><text x="32" y="19" class="g-tx">APK</text><path d="M24 32h16M24 38h12" class="g-ln"/></svg><span><b>2.</b> Abra o <b>SDTV.apk</b> (pela notificação ou na pasta <b>Downloads</b>).</span></li>
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><path d="M32 14 46 40H18Z" class="g-wr"/><path d="M32 23v8m0 4v1" class="g-ln2"/><rect x="22" y="46" width="20" height="6" rx="3" class="g-ac"/></svg><span><b>3.</b> Se aparecer <i>“não pode instalar apps desta fonte”</i>, toque em <b>Configurações</b>.</span></li>
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><path d="M22 20h12M22 28h10" class="g-ln"/><rect x="34" y="34" width="10" height="6" rx="3" class="g-ac"/><circle cx="41" cy="37" r="2.6" fill="#fff"/><path d="M22 37h8" class="g-ln"/></svg><span><b>4.</b> Ative <b>Permitir desta fonte</b>.</span></li>
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><path d="M24 16l-4 4 4 4" class="g-ln"/><rect x="21" y="40" width="22" height="9" rx="4" class="g-ac"/><text x="32" y="47" class="g-tx">Instalar</text></svg><span><b>5.</b> Volte e toque em <b>Instalar</b>.</span></li>
+<li><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="4" width="32" height="56" rx="6" class="g-ph"/><circle cx="32" cy="18" r="7" class="g-ac"/><rect x="21" y="30" width="22" height="6" rx="2" class="g-in"/><rect x="21" y="39" width="22" height="6" rx="2" class="g-in"/><rect x="21" y="48" width="22" height="6" rx="3" class="g-ac"/></svg><span><b>6.</b> Abra o <b>SDTV</b> e entre com seu <b>usuário e senha</b>.</span></li>
+</ol>
+<p class="gtip">📺 <b>Na TV Box / TV Android:</b> instale o app <b>Downloader</b> (loja da TV), abra e digite o endereço <b>https://github.com/sdnet10/sdtv-download/releases/latest/download/SDTV.apk</b>. Depois siga os passos 3 a 6 com o controle.</p>
+</div>
+  </section>
+
+  <section id="chat" class="sec">
+    <div class="card">
+      <div class="it" style="margin-bottom:6px"><b>Atendimento</b><div style="display:flex;gap:8px;align-items:center"><small><span class="dot on"></span> online</small></div></div>
+      <div id="gate">
+        <p style="margin:4px 0 6px"><b>Já falou com a gente?</b> Retome sua conversa 👇</p>
+        <p class="m" style="margin:0 0 10px">Digite o WhatsApp e o e-mail que você usou no teste (ou seu usuário do app).</p>
+        <div class="row"><input id="rph" placeholder="WhatsApp com DDD" inputmode="tel"></div>
+        <div class="row"><input id="rproof" placeholder="E-mail ou usuário"></div>
+        <button class="p w100" onclick="resumeChat(this)">Retomar conversa</button>
+        <hr>
+        <p class="m" style="text-align:center;margin:0 0 8px">Primeira vez aqui? Peça seu teste grátis — o chat abre na hora.</p>
+        <button class="w100" onclick="go('teste');document.getElementById('n').focus()">Pedir teste grátis</button>
+      </div>
+      <div class="chatbox" id="chatbox" style="display:none">
+        <div class="msgs" id="msgs"></div>
+        <form class="composer" onsubmit="send(event)">
+          <input id="msgIn" placeholder="Digite sua mensagem…" autocomplete="off">
+          <button class="p">Enviar</button>
+        </form>
+      </div>
+    </div>
+    <p class="m" style="text-align:center" id="waLine"></p>
+  </section>
+
+  <section id="cliente" class="sec">
+    <div class="card">
+      <h2>Já sou cliente</h2>
+      <p class="m">Informe seu nome e WhatsApp. Dá para pagar adiantado ou quando vencer. O PIX renova a mesma conta.</p>
+      <div class="row"><input id="cn" placeholder="Seu nome" autocomplete="name"></div>
+      <div class="row"><input id="cph" placeholder="WhatsApp com DDD" inputmode="tel"></div>
+      <button class="p w100" onclick="souCliente(this)">Entrar e renovar</button>
+      <p class="m" id="cMsg" style="margin-bottom:0"></p>
+      <hr style="border:0;border-top:1px solid #333;margin:14px 0">
+      <h2>Ou entre com usuário e senha do app</h2>
+      <p class="m">Os mesmos que você usa para assistir. Serve também se o acesso já venceu.</p>
+      <div class="row"><input id="lu" placeholder="Usuário do app" autocomplete="username" autocapitalize="off"></div>
+      <div class="row"><input id="lp" type="password" placeholder="Senha do app" autocomplete="current-password"></div>
+      <div class="row" id="lphRow" style="display:none"><input id="lph" placeholder="WhatsApp com DDD" inputmode="tel"></div>
+      <button class="p w100" onclick="souLogin(this)">Entrar e renovar</button>
+      <p class="m" id="lMsg" style="margin-bottom:0"></p>
+    </div>
+  </section>
+  
+  <section class="card" style="margin-top:10px">
+    <h2>Assistir na web</h2>
+    <p class="m">No computador, abra o site da SDTV e entre com o usuário e a senha.</p>
+    <div class="row"><a class="p" href="https://sdtv-web.vercel.app" target="_blank" rel="noopener">Web SDTV</a><a class="ghost" href="http://player.greensrv.site" target="_blank" rel="noopener">PC1</a><a class="ghost" href="http://play.greensrv.site" target="_blank" rel="noopener">PC2</a></div>
+  </section>
+
+  <section id="planos" class="sec"><div id="promos"></div></section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtMsg=s=>esc(s).replace(/\*([^*\n]+)\*/g,'<b>$1</b>').replace(/(^|[\s(>])((?:https?:\/\/|www\.)[^\s<]+?)(?=[.,;:!?)\]]*(?:[\s<]|$))/gi,(m,p,u)=>`${p}<a href="${/^www\./i.test(u)?'https://'+u:u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+const fdt=t=>new Date(t).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2600)}
+function cp(t){navigator.clipboard.writeText(t).then(()=>toast('Copiado')).catch(()=>prompt('Copie:',t))}
+// cada vez que a página abre começa uma conversa nova (nada fica salvo no aparelho)
+['sdtv_tok','sdtv_name','sdtv_phone','sdtv_seen'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
+let TOKEN=Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');
+let ME={name:'',phone:''},CFG={},lastId=0,seen=0,tab='teste';
+(function(){try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{6}$/.test(r))localStorage.setItem('sdtv_ref',r.toUpperCase())}catch(e){}})();
+async function api(a,body){body=body||{};try{const rf=localStorage.getItem('sdtv_ref');if(rf&&body.token&&!body.ref)body.ref=rf}catch(e){}const r=await fetch('https://whywhebigdgzbcbbfdch.supabase.co/functions/v1/app?a='+a,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json().catch(()=>({error:'Servidor indisponível'}));if(!r.ok)throw new Error(j.error||'Erro');return j}
+$('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.t==='planos'){want('quero renovar');return}go(b.dataset.t)};
+function go(t){tab=t;document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on',s.id===t));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));if(t==='chat'){seen=lastId;ls.set('sdtv_seen',seen);badge();const m=$('msgs');m.scrollTop=m.scrollHeight;setTimeout(()=>$('msgIn').focus(),50)}}
+function badge(){const n=document.querySelectorAll('.msg.them[data-id]');let c=0;n.forEach(x=>{if(+x.dataset.id>seen)c++});$('bChat').textContent=c;$('bChat').classList.toggle('show',c>0&&tab!=='chat')}
+function unlock(){ME.ok=true;$('gate').style.display='none';$('chatbox').style.display='flex'}
+async function souLogin(btn){const username=$('lu').value.trim(),password=$('lp').value,phone=$('lph').value.replace(/\D/g,'');
+  if(!username||!password)return toast('Informe usuário e senha');btn.disabled=true;$('lMsg').textContent='Conferindo…';
+  try{const r=await api('sou_cliente_login',{username,password,phone,token:TOKEN});ME={name:r.name||'Cliente',phone:r.phone,ok:true};remember(r.name||'Cliente',r.phone);unlock();$('lp').value='';$('lMsg').innerHTML=r.removed?'<span class="ok">Seu teste já foi encerrado. Escolha um plano no chat.</span>':'<span class="ok">Acesso conferido. O chat está aberto.</span>';go('chat');toast('Chat aberto');await pull()}
+  catch(e){if(/WhatsApp/.test(e.message))$('lphRow').style.display='';$('lMsg').innerHTML='<span class="bad">'+esc(e.message)+'</span>'}
+  finally{btn.disabled=false}}
+async function souCliente(btn){const name=$('cn').value.trim(),phone=$('cph').value.replace(/\D/g,'');
+  if(!name)return toast('Informe seu nome');if(phone.length<10)return toast('WhatsApp com DDD');
+  btn.disabled=true;$('cMsg').textContent='Procurando sua conta…';
+  try{const r=await api('sou_cliente',{name,phone,token:TOKEN});ME={name:name||'Cliente',phone,ok:true};unlock();$('cMsg').innerHTML='<span class="ok">Conta encontrada. O chat está aberto.</span>';go('chat');toast('Chat aberto');await pull()}
+  catch(e){$('cMsg').innerHTML='<span class="bad">'+esc(e.message)+'</span>'}
+  finally{btn.disabled=false}}
+
+async function init(){
+  try{const r=await api('config');CFG=r.settings;
+    if($('brand'))$('brand').textContent=CFG.name;document.title=CFG.name+' — Teste grátis';
+    $('hrs').textContent=`(${CFG.trialHours}h grátis)`;$('hrsBtn').textContent=CFG.trialHours+'h';$('emailRow').style.display=CFG.needEmail?'flex':'none';
+    if(!CFG.allowTrials){$('trialForm').innerHTML='<h2>Testes pelo chat</h2><p class="m">No momento os testes são liberados pelo atendimento.</p><button class="p w100" onclick="go(\'chat\')">Pedir no chat</button>'}
+    if(CFG.wa)$('waLine').innerHTML=`Prefere WhatsApp? <a href="https://wa.me/${CFG.wa}" target="_blank" rel="noopener">Falar com ${CFG.human||'o atendente'} no WhatsApp</a>`;
+    const pl=CFG.plans||[];const hot=pl.length>1?pl.length-1:-1;
+    const plansHTML=pl.map((p,i)=>`<div class="card plan ${i===hot?'hot':''}">${i===hot?'<span class="badge-hot">MAIS VENDIDO</span>':''}<div class="it"><b style="font-size:17px">${esc(p.name)}</b><span class="tag" style="color:var(--ac)">${(p.screens||+((p.name.match(/\d+/)||[])[0])||1)} tela${((p.screens||+((p.name.match(/\d+/)||[])[0])||1)>1)?'s':''}</span></div><div class="price">${brl(p.price)} <small>/ ${p.days} dias</small></div><ul><li>Assista em ${(p.screens||+((p.name.match(/\d+/)||[])[0])||1)} aparelho${((p.screens||+((p.name.match(/\d+/)||[])[0])||1)>1)?'s ao mesmo tempo':''}</li><li>Canais, filmes e séries</li><li>${CFG.pix?'PIX com liberação automática':'Ativação rápida'}</li></ul><button class="p w100" onclick="want('Comprar ${i+1} - ${esc(p.name).replace(/'/g,'')}')">Assinar ${esc(p.name)}</button></div>`).join('');
+    $('promos').innerHTML=plansHTML+r.promos.map(p=>`<div class="card promo"><div class="it"><b>${esc(p.title)}</b><span class="big" style="font-size:20px">${esc(p.price)}</span></div><p style="margin:6px 0 10px">${esc(p.descr)}</p><button class="p w100" onclick="want('Tenho interesse: ${esc(p.title).replace(/'/g,'')}')">Quero este</button></div>`).join('');if(!$('promos').innerHTML)$('promos').innerHTML='<div class="empty">Fale no chat para ver os planos.</div>';
+  }catch(e){toast(e.message)}
+  await pull();setInterval(pull,3500);
+}
+function want(t){if(!ME.ok){window._pendingMsg=t;go('chat');toast('Retome sua conversa ou peça o teste grátis primeiro');return}go('chat');sendText(t)}
+const brl=n=>'R$ '+Number(n||0).toFixed(2).replace('.',',');
+let PEND=new Set();
+function msgHTML(m){
+  const meta=m.meta||{};let extra='';
+  if(meta.pix){const x=meta.pix;PEND.add(x.pay_id);
+    extra=`<div class="pix" data-pay="${x.pay_id}">${x.qr?`<img alt="QR Code PIX" src="data:image/png;base64,${x.qr}">`:''}<div class="cred" style="margin-top:8px;font-size:12px">${esc(x.code)}</div><button class="p w100" style="margin-top:8px" onclick="cp(this.previousElementSibling.textContent)">Copiar PIX copia e cola</button><div class="m paystat" style="margin-top:6px">⏳ Aguardando pagamento de ${brl(x.amount)}…</div></div>`}
+  if(meta.buttons&&meta.buttons.length)extra+=`<div class="qbtns">${meta.buttons.map(b=>`<button onclick="qbtn(this)">${esc(b)}</button>`).join('')}</div>`;
+  const who=m.from_admin?(meta.agent?`<span class="who">${esc(meta.agent)} · ${'assistente virtual'}</span>`:'<span class="who">Atendente</span>'):'';
+  return `<div class="msg ${m.from_admin?'them':'me'}" data-id="${m.id}">${who}${fmtMsg(m.body)}${extra}<time>${fdt(m.created_at)}</time></div>`}
+async function sendText(t){if(BUSY)return;$('msgIn').value=t;await send(new Event('submit'))}
+function qbtn(el){if(BUSY)return;el.parentElement.querySelectorAll('button').forEach(b=>b.disabled=true);sendText(el.textContent)}
+let BUSY=false,RETRY=null;
+const newId=()=>(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
+function lockChat(on){BUSY=on;const f=$('msgIn').form;if(f)f.querySelectorAll('button,input,textarea').forEach(x=>x.disabled=on);document.querySelectorAll('.qbtns button').forEach(x=>{if(on)x.dataset.l=x.disabled?'1':'';x.disabled=on||x.dataset.l==='1'})}
+async function checkPays(){for(const id of [...PEND]){try{const r=await api('pay_check',{token:TOKEN,pay_id:id});
+  if(r.status&&r.status!=='pending'&&r.status!=='none'){PEND.delete(id);document.querySelectorAll(`.pix[data-pay="${id}"] .paystat`).forEach(e=>{e.innerHTML=r.status==='approved'||r.status==='activated'?'<b class="ok">✅ Pagamento aprovado</b>':'Pagamento '+esc(r.status)});if(r.status==='approved')pull()}}catch(e){}}}
+setInterval(checkPays,6000);
+function remember(name,phone){if(name)ME.name=name;if(phone)ME.phone=phone}
+
+async function resumeChat(btn){const phone=$('rph').value.replace(/\D/g,''),proof=$('rproof').value.trim();
+  if(phone.length<10)return toast('WhatsApp com DDD');if(proof.length<3)return toast('Informe o e-mail ou usuário');
+  btn.disabled=true;try{const r=await api('chat_resume',{phone,proof});TOKEN=r.token;lastId=0;seen=0;PEND=new Set();$('msgs').innerHTML='';ME={name:'Cliente',phone};unlock();await pull();go('chat');toast('Conversa retomada ✅');if(window._pendingMsg){await sendText(window._pendingMsg);window._pendingMsg=null}}
+  catch(e){toast(e.message)}finally{btn.disabled=false}}
+
+function emailOk(v){v=String(v||'').trim().toLowerCase();const m=v.match(/^([^@\s]+)@([^@\s]+)$/);if(!m)return false;const dom=m[2];if(m[1].length<2||!dom.includes('.'))return false;const tld=dom.split('.').pop();if(tld.length<2||/[^a-z]/.test(tld))return false;if(/^(gmail|hotmail|outlook|yahoo|live|icloud)$/.test(dom.split('.')[0])&&!/\.(com|com\.br|net|org)$/.test(dom))return false;return true;}
+async function trial(btn){
+  const name=$('n').value.trim(),phone=$('ph').value.replace(/\D/g,''),email=$('em').value.trim();
+  if(!name)return toast('Informe seu nome');if(phone.length<10)return toast('WhatsApp com DDD');if(CFG.needEmail&&!email)return toast('Informe seu e-mail');if(CFG.needEmail&&!emailOk(email))return toast('E-mail incompleto. Use o endereço inteiro, como nome@gmail.com ou nome@gmail.com.br');
+  btn.disabled=true;btn.textContent='Gerando…';$('tMsg').textContent='';
+  try{const r=await api('trial',{name,phone,email,token:TOKEN});remember(name,phone);unlock();$('trialForm').style.display='none';
+    if(r.status==='ativo'){$('credBox').textContent=r.text;$('trialOk').style.display='block'}
+    else{if(r.emailed){$('trialWait').querySelector('h2').textContent='✅ Teste criado!';$('trialWait').querySelector('h2').className='ok'}if(r.emailed)$('waitTxt').textContent='Os dados de acesso foram enviados para o seu e-mail (confira também o spam). Qualquer dúvida, me chama no chat.';$('trialWait').style.display='block'}
+    await pull();
+    if(r.status==='ativo'||r.emailed){go('chat');setTimeout(()=>{const m=$('msgs');m.scrollTop=m.scrollHeight;$('chat').scrollIntoView({behavior:'smooth',block:'start'})},150)}
+  }catch(e){$('tMsg').innerHTML=`<span class="bad">${esc(e.message)}</span>`+(/já usou/.test(e.message)?`<div class="row" style="margin-top:8px"><button class="p" onclick="want('quero renovar')">Ver planos</button><button onclick="go('chat')">Falar no chat</button></div>`:'');if(/já usou/.test(e.message)){unlock();pull()}}
+  finally{btn.disabled=false;btn.textContent='Gerar meu teste'}
+}
+let PULLING=null;
+function pull(){if(PULLING)return PULLING.then(()=>pull0());return pull0()}
+async function pull0(){if(PULLING)return PULLING;PULLING=(async()=>{
+  try{const r=await api('chat_list',{token:TOKEN,after:lastId});const box=$('msgs');
+    if(!lastId&&!r.messages.length&&!box.children.length)box.innerHTML=msgHTML({id:0,from_admin:true,body:CFG.welcome||'Olá! Como posso ajudar?',meta:CFG.bot?{buttons:['Teste grátis','Ver planos','Renovar meu plano','Falar com atendente']}:{},created_at:new Date()});
+    if(r.messages.length){const atB=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+      if(!lastId)box.innerHTML='';
+      const fresh=r.messages.filter(m=>m.from_admin&&m.id>seen&&lastId);
+      r.messages=r.messages.filter(m=>m.id>lastId||!lastId);
+      r.messages.forEach(m=>{if(m.id&&box.querySelector(`.msg[data-id="${m.id}"]`))return;box.insertAdjacentHTML('beforeend',msgHTML(m));if(m.meta&&m.meta.tab&&lastId&&m.from_admin)go(m.meta.tab)});
+      lastId=r.messages[r.messages.length-1].id;if(atB||tab==='chat')box.scrollTop=box.scrollHeight;
+      if(tab==='chat'){seen=lastId;ls.set('sdtv_seen',seen)}else if(fresh.length)toast('Nova mensagem 💬');badge()}
+  }catch(e){}
+  })();try{await PULLING}finally{PULLING=null}}
+async function send(e){e.preventDefault();if(BUSY)return;const body=$('msgIn').value.trim();if(!body)return;if(!ME.ok){go('chat');toast('Retome sua conversa ou peça o teste grátis');return}
+  let name=ME.name;const phone=ME.phone;
+  if(!name)name='Visitante';
+  $('msgIn').value='';
+  const cid=(RETRY&&RETRY.body===body)?RETRY.cid:newId();RETRY=null;
+  lockChat(true);
+  try{const sr=await api('chat_send',{token:TOKEN,name,phone,body,client_msg_id:cid});if(sr&&sr.defer&&sr.msg_id){const tk=TOKEN,mid=sr.msg_id;setTimeout(()=>api('bot_followup',{token:tk,msg_id:mid}).then(()=>pull()).catch(()=>{}),sr.defer*1000+500)}if(name!=='Visitante')remember(name,phone);await pull();$('msgs').scrollTop=$('msgs').scrollHeight}
+  catch(err){toast(err.message);$('msgIn').value=body;RETRY={body,cid}}
+  finally{lockChat(false);setTimeout(()=>$('msgIn').focus(),30)}}
+init();
+</script>
+</body>
+</html>
