@@ -307,8 +307,10 @@ async function alertStatus(){try{const r=await api('alert_status');const t=r.tel
   const ai=r.ai||{};$('aiStatus').textContent=ai.on?'🤖 IA ligada: '+ai.provider+' ('+ai.model+')'+(r.aiLast?' · última chamada: '+(r.aiLast.ok?'✅ ok':'❌ '+r.aiLast.error):''):'🤖 IA desligada: o robô usa só as regras/FAQ (para ligar, coloque XAI_API_KEY no Vercel)'}catch(e){}}
 async function tgSetup(btn){await busy(btn,async()=>{const r=await api('tg_setup');if(!r.ok){$('alertStatus').textContent='❌ '+(r.error||'falhou')}else{toast('Telegram conectado');alertStatus()}})}
 async function testAlert(btn){await busy(btn,async()=>{const r=await api('notify_test');$('alertStatus').textContent=`Push: ${r.push&&r.push.ok?'✅ '+r.push.sent+' aparelho(s)':'❌ '+((r.push&&(r.push.skipped||r.push.error))||'sem aparelhos')} · Telegram: ${r.telegram&&r.telegram.ok?'✅':'❌ '+((r.telegram&&(r.telegram.skipped||r.telegram.error))||'')}`})}
+(function(){const q=new URLSearchParams(location.search).get('chat');if(q&&/^\d+$/.test(q)){sessionStorage.setItem('openChat',q);history.replaceState(null,'','/')}})();
+function openPending(n){const q=sessionStorage.getItem('openChat');if(!q)return;n=n||0;if((S.chats||[]).some(c=>c.id==q)||n>=20){sessionStorage.removeItem('openChat');go('chat');openConv(+q);return}setTimeout(()=>openPending(n+1),500)}
 async function boot(){
-  try{await load();$('loginView').style.display='none';$('app').style.display='block';poll();if(!boot._t)boot._t=setInterval(poll,5000);const qc=new URLSearchParams(location.search).get('chat');if(qc){go('chat');openConv(+qc);history.replaceState(null,'','/')}}
+  try{await load();$('loginView').style.display='none';$('app').style.display='block';poll();if(!boot._t)boot._t=setInterval(poll,5000);openPending()}
   catch(e){$('app').style.display='none';$('loginView').style.display='block';$('loginErr').textContent=e.message||'Não abriu o painel'}
 }
 async function avisarVenc(btn){await busy(btn,async()=>{const r=await api('cron_exp');const el=$('expStatus');const links=(r.items||[]).filter(x=>x.wa).map(x=>`<a href="${x.wa}" target="_blank" rel="noopener">${esc(x.name||x.username)} · ${esc(x.kind)}</a>`).join('<br>');if(el)el.innerHTML=`Avisos no chat: ${r.sent}. Já avisados hoje: ${r.skipped}.`+(links?`<br>Abrir no WhatsApp do cliente:<br>${links}`:'');toast('Avisos prontos')})}
