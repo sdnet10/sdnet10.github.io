@@ -281,7 +281,7 @@ async function api(a,body){
   const headers={'Content-Type':'application/json'};
   if(PASS) headers['x-admin']=PASS;
   const tk=ls.get('sdtv_admin_tok');if(tk) headers['x-sess']=tk;
-  const r=await fetch('https://whywhebigdgzbcbbfdch.supabase.co/functions/v1/app?a='+a,{method:'POST',credentials:'include',headers,body:JSON.stringify(body||{})});
+  const r=await fetch('https://sdtv-app.sdtvbr.workers.dev/?a='+a,{method:'POST',credentials:'include',headers,body:JSON.stringify(body||{})});
   const j=await r.json().catch(()=>({error:'Resposta inválida do servidor'}));
   if(r.status===401){logout(true);throw new Error(j.error)}
   if(!r.ok)throw new Error(j.error||('Erro '+r.status));
@@ -292,7 +292,7 @@ async function busy(btn,fn){if(btn)btn.disabled=true;try{return await fn()}catch
 // ---------- login ----------
 async function doLogin(e){e.preventDefault();PASS=$('pass').value;$('loginErr').textContent='';
   try{const lr=await api('login');if(lr&&lr.token)ls.set('sdtv_admin_tok',lr.token);PASS='';$('pass').value='';ls.del('sdtv_admin');boot()}catch(err){$('loginErr').textContent=err.message}}
-function logout(silent){PASS='';ls.del('sdtv_admin_tok');ls.del('sdtv_admin');fetch('https://whywhebigdgzbcbbfdch.supabase.co/functions/v1/app?a=logout',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:'{}'}).catch(()=>{});$('app').style.display='none';$('loginView').style.display='block';if(silent!==true)toast('Saiu')}
+function logout(silent){PASS='';ls.del('sdtv_admin_tok');ls.del('sdtv_admin');fetch('https://sdtv-app.sdtvbr.workers.dev/?a=logout',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:'{}'}).catch(()=>{});$('app').style.display='none';$('loginView').style.display='block';if(silent!==true)toast('Saiu')}
 const b64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');const r=atob(s+'='.repeat((4-s.length%4)%4));return Uint8Array.from(r,c=>c.charCodeAt(0))};
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw-admin.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{});navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.openChat){go('chat');openConv(+e.data.openChat)}})}
 async function enablePush(btn){await busy(btn,async()=>{
