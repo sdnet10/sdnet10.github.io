@@ -15,10 +15,19 @@
 
 <style>
 .mural{display:none}
+.banner .brandlogo{width:min(380px,76%);height:auto;display:block;background:transparent}
+.banner .brand .logo{width:58px;height:40px;font-size:15px;letter-spacing:.04em;border-radius:12px;background:#fff;color:#ff7a00;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.banner .only-name{display:none}
+.banner h1{position:relative;z-index:3;padding-right:8px}
+.banner .live{display:none}
+.watch-pc .row{flex-wrap:nowrap}
+.watch-pc .row a{flex:0 0 auto;min-width:auto;padding:8px 16px;border-radius:12px;text-decoration:none;font-weight:700;border:1px solid var(--ln);display:inline-flex;align-items:center;justify-content:center}
+.watch-pc .row a.p{border-color:transparent;color:#fff}
+.watch-pc .row a.ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.22)}
+
 @media(min-width:1180px){
   .mural{display:none}
   .mural::-webkit-scrollbar{display:none}
-  
   .poster{display:block;text-decoration:none;color:#fff;border-radius:18px;padding:16px 14px;min-height:168px;background:
     radial-gradient(120px 80px at 90% 10%, rgba(255,122,0,.45), transparent 60%),
     linear-gradient(160deg,#1a0d05,#070707 55%,#120800);
@@ -29,17 +38,53 @@
   .poster i{display:inline-block;margin-top:12px;font-style:normal;font-size:11px;font-weight:700;background:#ff7a00;color:#1a0d05;border-radius:999px;padding:4px 8px}
 }
 
-@media(min-width:1100px){
-  .wrap{padding:6px 12px 8px}
-  .banner{min-height:0;padding:320px 22px 14px}
-  .banner h1{font-size:26px;margin:0}
+/* Desktop / notebook: hero compacto e coluna do meio cabe em uma tela */
+@media(min-width:801px){
+  html,body{height:100%;overflow:hidden}
+  body{min-height:100dvh;height:100dvh}
+  .wrap{height:100dvh;max-height:100dvh;padding:8px 12px;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
+  .banner{flex:0 0 auto;order:0;min-height:0;margin:0 0 8px;padding:10px 16px;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:16px}
+  .banner .brand{position:relative;z-index:3;inset:auto;left:auto;right:auto;top:auto;display:flex;justify-content:center;margin:0;flex:0 0 auto}
+  .banner .brandlogo{width:156px;max-width:none;height:auto}
+  .banner-copy{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+  .banner h1{font-size:22px;margin:0;max-width:none;padding:0;line-height:1.15}
   .banner p,.chips,.feat,.live{display:none}
-  .tabs{margin:6px 0}
+  .banner .cta{margin:0}
+  .banner .cta button{padding:8px 14px;font-size:14px;border-radius:12px}
+  .feat{order:1}
+  .watch-pc{order:2;flex:0 0 auto;margin:0 0 8px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .watch-pc h2{margin:0;font-size:14px}
+  .watch-pc p{margin:0;flex:1;min-width:180px}
+  .watch-pc .row{margin:0;flex:0 0 auto;flex-wrap:nowrap;width:auto}
+  nav.tabs{order:3;flex:0 0 auto;margin:0 0 8px;padding:4px 0;position:static;background:transparent}
+  .sec{order:4}
+  .sec.on{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;overflow:auto}
   #teste .card{padding:10px 12px}
   #teste h2{margin:0 0 6px;font-size:15px}
   #teste .row{margin-bottom:6px}
   #teste input,#teste button{padding:7px 10px}
-  .mural{display:flex;flex-direction:column;gap:0;position:fixed;top:12px;height:calc(100vh - 24px);width:min(300px, calc(50vw - 410px));overflow:hidden;border-radius:22px;border:1px solid rgba(255,122,0,.5);box-shadow:0 18px 40px rgba(0,0,0,.55);z-index:2;background:#111}
+  #cliente .card{padding:10px 12px}
+  #cliente h2{margin:0 0 4px;font-size:15px}
+  #cliente .row{margin-bottom:6px}
+  #cliente input,#cliente button{padding:7px 10px}
+  #cliente hr{margin:8px 0}
+  #cliente p.m{margin:0 0 6px}
+  #chat.on{overflow:hidden}
+  #chat.on:has(#chatbox[style*="flex"]) > .card{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin-bottom:0;padding:10px 12px}
+  #chat .chatbox{flex:1 1 auto;min-height:0;height:auto}
+  #chat #waLine{flex:0 0 auto;margin:6px 0 0}
+}
+@media(min-width:801px) and (max-height:700px){
+  .banner{padding:8px 14px;gap:12px;margin-bottom:6px}
+  .banner .brandlogo{width:120px}
+  .banner h1{font-size:20px}
+  .watch-pc{padding:6px 10px;margin-bottom:6px}
+  nav.tabs{margin-bottom:6px}
+}
+
+@media(min-width:1100px){
+  .wrap{padding:8px 12px}
+  .mural{display:flex;flex-direction:column;gap:0;position:fixed;top:12px;height:calc(100dvh - 24px);width:min(300px, calc(50vw - 410px));overflow:hidden;border-radius:22px;border:1px solid rgba(255,122,0,.5);box-shadow:0 18px 40px rgba(0,0,0,.55);z-index:2;background:#111}
   .mural.l{left:auto;right:calc(50% + 392px)}
   .mural.r{left:calc(50% + 392px);right:auto}
   .mural a{flex:1;min-height:0;display:block;overflow:hidden}
@@ -47,25 +92,18 @@
   .mural img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#111}
 }
 
-
+/* Em telas estreitas os banners laterais não entram na coluna; no celular somem (style.css) */
 @media(max-width:1099px){
-  .mural{display:flex;flex-direction:row;gap:8px;position:static;width:auto;height:auto;margin:10px 12px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(255,122,0,.45);background:#111}
-  .mural a{flex:1;min-height:160px;display:block}
-  .mural img{width:100%;height:160px;object-fit:cover;object-position:center;display:block}
+  .mural{display:none}
 }
-
 
 @media(max-width:800px){
   .wrap{padding-bottom:96px}
   .banner{padding-top:200px}
+  .banner .brand{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;z-index:3}
   .banner .brandlogo{width:min(240px,70%)}
+  .watch-pc{margin-top:0}
 }
-.banner .brand{position:absolute;top:8px;left:0;right:0;display:flex;justify-content:center;z-index:3}
-.banner .brandlogo{width:min(380px,76%);height:auto;display:block;background:transparent}
-.banner .brand .logo{width:58px;height:40px;font-size:15px;letter-spacing:.04em;border-radius:12px;background:#fff;color:#ff7a00;box-shadow:0 6px 18px rgba(0,0,0,.35)}
-.banner .only-name{display:none}
-.banner h1{position:relative;z-index:3;padding-right:8px}
-.banner .live{display:none}
 </style>
 </head>
 <body>
@@ -83,10 +121,12 @@
     <svg class="bannerbg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g1" cx="78%" cy="30%" r="60%"><stop offset="0" stop-color="#ff7a00" stop-opacity=".55"/><stop offset=".45" stop-color="#ff5a00" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><radialGradient id="g2" cx="10%" cy="90%" r="50%"><stop offset="0" stop-color="#ff9a1f" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#ff7a00" stop-opacity="0"/><stop offset=".5" stop-color="#ffb04d" stop-opacity=".9"/><stop offset="1" stop-color="#ff7a00" stop-opacity="0"/></linearGradient></defs><rect width="1200" height="600" fill="#050505"/><g transform="translate(140 -40) skewY(-8) rotate(-6 600 300)"><rect x="120" y="40" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.03"/><rect x="120" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.04"/><rect x="240" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="360" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="360" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="480" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="480" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="600" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.04"/><rect x="600" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="720" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.06"/><rect x="720" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="840" y="40" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.09"/><rect x="840" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="960" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="960" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="1080" y="40" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.10"/><rect x="1080" y="40" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.14"/><rect x="160" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.03"/><rect x="160" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="280" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.05"/><rect x="280" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="400" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="400" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="520" y="124" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.07"/><rect x="520" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="640" y="124" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.11"/><rect x="640" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.16"/><rect x="760" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.09"/><rect x="760" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="880" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.07"/><rect x="880" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="1000" y="124" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.11"/><rect x="1000" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.16"/><rect x="1120" y="124" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.08"/><rect x="1120" y="124" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="120" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.03"/><rect x="120" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="208" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="240" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="360" y="208" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.04"/><rect x="360" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="480" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.07"/><rect x="480" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="600" y="208" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.05"/><rect x="600" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="720" y="208" width="104" height="62" rx="8" fill="#ffffff" opacity="0.08"/><rect x="720" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.11"/><rect x="840" y="208" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.09"/><rect x="840" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="960" y="208" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.08"/><rect x="960" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="1080" y="208" width="104" height="62" rx="8" fill="#ff9a1f" opacity="0.16"/><rect x="1080" y="208" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.23"/><rect x="160" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.03"/><rect x="160" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="280" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="280" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="400" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.06"/><rect x="400" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.09"/><rect x="520" y="292" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.07"/><rect x="520" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.10"/><rect x="640" y="292" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.04"/><rect x="640" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="760" y="292" width="104" height="62" rx="8" fill="#ffffff" opacity="0.05"/><rect x="760" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.07"/><rect x="880" y="292" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.05"/><rect x="880" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="1000" y="292" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.09"/><rect x="1000" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.13"/><rect x="1120" y="292" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.15"/><rect x="1120" y="292" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.22"/><rect x="120" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.03"/><rect x="120" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.05"/><rect x="240" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.04"/><rect x="240" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="360" y="376" width="104" height="62" rx="8" fill="#2a2a2a" opacity="0.06"/><rect x="360" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.08"/><rect x="480" y="376" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.08"/><rect x="480" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="600" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.10"/><rect x="600" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.14"/><rect x="720" y="376" width="104" height="62" rx="8" fill="#ff7a00" opacity="0.08"/><rect x="720" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.12"/><rect x="840" y="376" width="104" height="62" rx="8" fill="#ffffff" opacity="0.04"/><rect x="840" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.06"/><rect x="960" y="376" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.12"/><rect x="960" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.18"/><rect x="1080" y="376" width="104" height="62" rx="8" fill="#ff5a00" opacity="0.08"/><rect x="1080" y="376" width="104" height="62" rx="8" fill="none" stroke="#ff8a1a" stroke-opacity="0.11"/></g><rect width="1200" height="600" fill="url(#g1)"/><rect width="1200" height="600" fill="url(#g2)"/><g opacity=".8"><rect x="-100" y="350" width="900" height="2" fill="url(#s)" transform="rotate(-14 400 350)"/><rect x="300" y="430" width="1000" height="1.5" fill="url(#s)" transform="rotate(-14 800 430)"/><rect x="100" y="250" width="700" height="1" fill="url(#s)" transform="rotate(-14 450 250)"/></g><g transform="translate(905 200)" opacity="0"><circle r="62" fill="none" stroke="#ff7a00" stroke-width="3" stroke-opacity=".8"/><circle r="84" fill="none" stroke="#ff7a00" stroke-width="1.5" stroke-opacity=".35"/><path d="M-18 -28 L32 0 L-18 28 Z" fill="#ff7a00"/></g></svg>
     <div class="brand"><img class="brandlogo" src="/logo-sdtv.apng" alt="SDTV"></div>
     <div class="live"><i></i>AO VIVO</div>
+    <div class="banner-copy">
     <h1>Canais, filmes e séries <span>em um só lugar</span></h1>
     <p>Assista na TV, celular ou TV Box. Teste grátis agora e assine com PIX em segundos.</p>
     <div class="chips"><span>📺 Full HD e 4K</span><span>⚡ Liberação na hora</span><span>💬 Suporte no chat</span></div>
     <div class="cta"><button class="p" onclick="go('teste');document.getElementById('n').focus()">Testar grátis <span id="hrsBtn"></span></button><button class="ghost" onclick="want('quero renovar')">Ver planos</button></div>
+    </div>
   </section>
 
   <div class="feat"><div><b>+ Canais</b>ao vivo</div><div><b>Filmes</b>e séries</div><div><b>PIX</b>automático</div></div>
@@ -176,13 +216,17 @@
     </div>
   </section>
   
-  <section class="card" style="margin-top:10px">
-    <h2>Assistir no computador</h2>
-    <p class="m">No computador, abra o webplayer da Green e entre com o usuário e a senha.</p>
+
+
+    <section class="card watch-pc">
+    <div>
+      <h2>Assistir no computador</h2>
+      <p class="m">No computador, abra o webplayer da Green e entre com o usuário e a senha.</p>
+    </div>
     <div class="row"><a class="p" href="http://player.greensrv.site" target="_blank" rel="noopener">PC1</a><a class="ghost" href="http://play.greensrv.site" target="_blank" rel="noopener">PC2</a></div>
   </section>
 
-  <section id="planos" class="sec"><div id="promos"></div></section>
+<section id="planos" class="sec"><div id="promos"></div></section>
 </div>
 <div class="toast" id="toast"></div>
 
